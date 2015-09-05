@@ -2,12 +2,14 @@ module View
   (rootView)
   where
 
+import Geometry exposing (LatLng)
 import Exts.Html.Bootstrap exposing (..)
 import View.Compass exposing (compass)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Signal exposing (..)
 import Schema exposing (..)
+import FindAddress.View
 
 rootView : Address Action -> Model -> Html
 rootView uiChannel model =
@@ -19,7 +21,9 @@ contentView : Address Action -> Model -> Html
 contentView uiChannel model =
   div []
       [case model.view of
-         FrontPage -> frontPage uiChannel model]
+         FrontPage -> case model.findModel.chosenCandidate of
+                        Nothing -> FindAddress.View.rootView (forwardTo uiChannel FindAction) model.findModel
+                        Just target -> frontPage uiChannel model]
 
 navbar : Address Action -> Html
 navbar uiChannel =

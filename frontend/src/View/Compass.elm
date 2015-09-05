@@ -1,5 +1,6 @@
 module View.Compass where
 
+import Geometry exposing (LatLng)
 import Svg exposing (..)
 import Svg.Attributes exposing (..)
 import Schema exposing (..)
@@ -15,12 +16,12 @@ compass target position orientation =
       transformString = case maybeAim of
                           Nothing -> ""
                           Just b -> "rotate(" ++ (toString (-b)) ++ " 60 60)"
-  in svg [width "90vw", height "90vw", viewBox "0 0 120 120"]
+  in svg [width "300", height "300", viewBox "0 0 120 120"]
          [circle [cx "60", cy "60", r "51", fill "none", stroke "grey", strokeWidth "5"]
                  []
          ,Svg.path [d "M 50 10 A 50 50 0 0 1 70 10", fill "none", stroke "red", strokeWidth "5", transform transformString]
                    []
          ,polygon [points "58,10 60,3 62,10", fill "red", stroke "red", strokeWidth "1", transform transformString] []
 
-         ,text' [x "60", y "65", textAnchor "middle"]
+         ,text' [x "60", y "60", textAnchor "middle"]
                 [text (toString roundedDistance ++ "km")]]

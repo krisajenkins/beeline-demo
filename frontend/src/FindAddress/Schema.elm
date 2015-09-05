@@ -1,0 +1,39 @@
+module FindAddress.Schema where
+
+import Json.Decode as Json exposing (..)
+import Json.Decode.Extra exposing (apply,date)
+import Http exposing (Error)
+import Geometry exposing (LatLng)
+
+type alias Candidate =
+  {address: String
+  ,location: LatLng
+  ,score : Int}
+
+type alias Model =
+  {term : Maybe String
+  ,chosenCandidate : Maybe Candidate
+  ,candidates : Maybe (Result Error (List Candidate))}
+
+type Action
+  = NoOp
+  | TermChange String
+  | Submit
+  | SearchCandidates (Result Error (List Candidate))
+  | ChooseCandidate Candidate
+  | ClearChoice
+
+decodeLocation : Decoder LatLng
+decodeLocation = LatLng
+  `map`   ("x" := float)
+  `apply` ("y" := float)
+
+decodeCandidate : Decoder Candidate
+decodeCandidate = Candidate
+  `map`   ("address" := string)
+  `apply` ("location" := decodeLocation)
+  `apply` ("score" := int)
+
+decodeFindAddressCandidates : Decoder (List Candidate)
+decodeFindAddressCandidates =
+  at ["candidates"] (list decodeCandidate)

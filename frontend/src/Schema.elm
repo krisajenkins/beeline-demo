@@ -1,12 +1,11 @@
 module Schema where
 
+import Geometry exposing (LatLng)
+import FindAddress.Schema
+
 type View
   = NotFoundPage
   | FrontPage
-
-type alias LatLng =
-  {latitude : Float
-  ,longitude : Float}
 
 type alias Orientation =
   {alpha : Maybe Float
@@ -32,6 +31,7 @@ type alias PositionError =
 
 type alias Model =
   {view : View
+  ,findModel : FindAddress.Schema.Model
   ,target : LatLng
   ,orientation : Maybe (Result String Orientation)
   ,geolocation : Maybe (Result PositionError Position)}
@@ -41,6 +41,9 @@ type Action
   | ChangeView View
   | ChangeOrientation (Maybe (Result String Orientation))
   | ChangeLocation (Maybe (Result PositionError Position))
+  | FindAction FindAddress.Schema.Action
+
+------------------------------------------------------------
 
 roundTo : Int -> Float -> Float
 roundTo places =

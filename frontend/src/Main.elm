@@ -7,6 +7,7 @@ import Result exposing (fromMaybe)
 import Signal exposing (Signal, Mailbox, foldp, mergeMany, (<~), constant, sampleOn)
 import StartApp exposing (App)
 import Schema exposing (..)
+import FindAddress.Main
 import Task exposing (Task)
 import View exposing (..)
 
@@ -39,15 +40,17 @@ asEffect = Effects.task << Task.toResult
 ------------------------------------------------------------
 init : (Model, Effects Action)
 init =
-  ({view = FrontPage
-  ,target = {latitude = 51.485167, longitude = -0.271801} -- Chiswick
- -- ,target = {latitude = -25.487333, longitude = 137.422671} -- Australia
-  --,target = {latitude = 51.460986, longitude = -0.064116} -- Peckham
-  --,target = {latitude = 40.647067, longitude = -73.949289} -- NYC
-  --,target = {latitude = 51.528182, longitude = -0.086533} -- OLD ST
-   ,orientation = Nothing
-   ,geolocation = Nothing}
-  ,Effects.none)
+  let (findModel,findEffects) = FindAddress.Main.init
+  in ({view = FrontPage
+      ,target = {latitude = 51.485167, longitude = -0.271801} -- Chiswick
+    -- ,target = {latitude = -25.487333, longitude = 137.422671} -- Australia
+     --,target = {latitude = 51.460986, longitude = -0.064116} -- Peckham
+     --,target = {latitude = 40.647067, longitude = -73.949289} -- NYC
+     --,target = {latitude = 51.528182, longitude = -0.086533} -- OLD ST
+      ,orientation = Nothing
+      ,findModel = findModel
+      ,geolocation = Nothing}
+     ,Effects.map FindAction findEffects)
 
 update : Action -> Model -> (Model, Effects Action)
 update action model =
@@ -56,6 +59,8 @@ update action model =
     ChangeView v -> ({model | view <- v}, none)
     ChangeLocation l -> ({model | geolocation <- l}, none)
     ChangeOrientation o -> ({model | orientation <- o}, none)
+    FindAction a -> let (newFindModel, newFindEffects) = FindAddress.Main.update a model.findModel
+                    in ({model | findModel <- newFindModel}, Effects.map FindAction newFindEffects)
 
 app : App Model
 app = StartApp.start {init = init
