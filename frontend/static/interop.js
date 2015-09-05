@@ -27,7 +27,11 @@ window.addEventListener(
         };
 
         navigator.geolocation.getCurrentPosition(sendPosition);
-        navigator.geolocation.watchPosition(sendPosition,sendPositionError,{});;
+        navigator.geolocation.watchPosition(
+            sendPosition,
+            sendPositionError,
+            {maximumAge : 1000}
+        );;
 
         window.addEventListener('popstate', sendHash, false);
     },
