@@ -8,6 +8,7 @@ import Effects exposing (Effects,none,Never)
 init : (Model, Effects Action)
 init =
   ({term = Nothing
+   ,loading = False
    ,chosenCandidate = Nothing
    ,candidates = Nothing}
    ,none)
@@ -19,10 +20,13 @@ update : Action -> Model -> (Model, Effects Action)
 update action model =
   case action of
     NoOp -> (model, none)
-    Submit -> (model, case model.term of
-                        Nothing -> none
-                        Just term -> Effects.map SearchCandidates (findCandidates term))
+    Submit -> ({model | loading <- True}
+              , case model.term of
+                  Nothing -> none
+                  Just term -> Effects.map SearchCandidates (findCandidates term))
     TermChange t -> ({model | term <- Just t}, none)
-    SearchCandidates xs -> ({model | candidates <- Just xs}, none)
+    SearchCandidates xs -> ({model | candidates <- Just xs
+                                   , loading <- False}
+                           ,none)
     ChooseCandidate x -> ({model | chosenCandidate <- Just x}, none)
     Reset -> init

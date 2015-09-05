@@ -36,17 +36,17 @@ rootView uiChannel model =
 
 searchForm : Address Action -> Model -> Html
 searchForm uiChannel model =
-  Html.form []
-            [div [class "form-group"]
-                 [input [class "form-control"
-                        ,autofocus True
-                        ,onEnter (message uiChannel Submit)
-                        ,on "keyup" targetValue (message (forwardTo uiChannel TermChange))
-                        ,type' "text"] []
-                 ,button [class "btn btn-block btn-success"
-                         ,type' "button"
-                         ,onClick uiChannel Submit]
-                         [text "Search"]]]
+  (div [class "form-group"]
+       [input [class "form-control"
+              ,autofocus True
+              ,onEnter (message uiChannel Submit)
+              ,on "keyup" targetValue (message (forwardTo uiChannel TermChange))
+              ,type' "text"] []
+       ,button [class "btn btn-block btn-success"
+               ,disabled model.loading
+               ,type' "submit"
+               ,onClick uiChannel Submit]
+               [text "Search"]])
 
 resultsList : Address Action -> List Candidate -> Html
 resultsList uiChannel candidates =
@@ -57,4 +57,6 @@ resultItem : Address Action -> Candidate -> Html
 resultItem uiChannel candidate =
   li [class "list-group-item"
      ,onClick uiChannel (ChooseCandidate candidate)]
-     [text candidate.address]
+     [text candidate.address
+     ,span [class "badge"]
+           [text (toString candidate.score)]]

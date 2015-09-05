@@ -12,6 +12,7 @@ type alias Candidate =
 
 type alias Model =
   {term : Maybe String
+  ,loading : Bool
   ,chosenCandidate : Maybe Candidate
   ,candidates : Maybe (Result Error (List Candidate))}
 
