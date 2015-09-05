@@ -57,15 +57,17 @@ positionView position =
 positionTable : Position -> Html
 positionTable position =
   table [class "table table-condensed table-bordered"]
-        [thead []
-               [tr []
-                   [th [] [text "Latitude"]
-                   ,th [] [text "Longitude"]]]
+        [thead [] []
         ,tbody []
                [tr []
-                   [td [] [text (toString position.coords.latitude)]
-                   ,td [] [text (toString position.coords.longitude)]]]]
-
+                   [th [] [text "Latitude"]
+                   ,td [] [text (toString position.coords.latitude)]]
+               ,tr []
+                   [th [] [text "Longitude"]
+                   ,td [] [text (toString position.coords.longitude)]]
+               ,tr []
+                   [th [] [text "Timestamp"]
+                   ,td [] [text (toString position.timestamp)]]]]
 
 noPositionView : Html
 noPositionView = h2 [] [text "Awaiting location..."]
