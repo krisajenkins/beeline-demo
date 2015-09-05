@@ -40,8 +40,8 @@ asEffect = Effects.task << Task.toResult
 init : (Model, Effects Action)
 init =
   ({view = FrontPage
-  -- ,target = {latitude = 51.485167, longitude = -0.271801} -- Chiswick
-  ,target = {latitude = -25.487333, longitude = 137.422671} -- Australia
+  ,target = {latitude = 51.485167, longitude = -0.271801} -- Chiswick
+ -- ,target = {latitude = -25.487333, longitude = 137.422671} -- Australia
   --,target = {latitude = 51.460986, longitude = -0.064116} -- Peckham
   --,target = {latitude = 40.647067, longitude = -73.949289} -- NYC
   --,target = {latitude = 51.528182, longitude = -0.086533} -- OLD ST
@@ -63,7 +63,7 @@ app = StartApp.start {init = init
                      ,view = rootView
                      ,update = update
                      ,inputs = [ChangeView << decodeHash <~ uriHashSignal
-                               ,ChangeOrientation << Maybe.map Ok <~ sampleOn (every (500 * millisecond)) orientationSignal
+                               ,ChangeOrientation << Maybe.map Ok <~ sampleOn (every (100 * millisecond)) orientationSignal
                                ,ChangeOrientation << Maybe.map Err <~ orientationErrorSignal
                                ,ChangeLocation << Maybe.map Ok <~ geolocationSignal
                                ,ChangeLocation << Maybe.map Err <~ geolocationErrorSignal]}

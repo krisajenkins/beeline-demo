@@ -67,12 +67,12 @@ distanceBetween a b =
       v2 = 2 * (atan2 (sqrt v1) (sqrt (1 - v1)))
   in earthRadius * v2
 
-bearing : {a | latitude : Float, longitude : Float}
-       -> {b | latitude : Float, longitude : Float}
-       -> Float
-bearing a b =
+bearingTo : {a | latitude : Float, longitude : Float}
+         -> {b | latitude : Float, longitude : Float}
+         -> Int
+bearingTo a b =
   let dlon = ((degrees b.longitude) - (degrees a.longitude))
       y = (sin dlon) * (cos (degrees b.latitude))
       x = ((cos (degrees a.latitude)) * (sin (degrees b.latitude))) - ((sin (degrees a.latitude)) * (cos (degrees b.latitude)) * (cos dlon))
       bearing = (atan2 y x) * (180 / pi)
-  in bearing
+  in (round bearing + 360) % 360

@@ -3,6 +3,7 @@ module View
   where
 
 import Exts.Html.Bootstrap exposing (..)
+import View.Compass exposing (compass)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -59,11 +60,16 @@ positionView : LatLng -> Position -> Orientation -> Html
 positionView target position orientation =
   let distance = distanceBetween position.coords target
       roundedDistance = roundTo 2 distance
-      aim a = (bearing position.coords target) - a
+      bearing = bearingTo position.coords target
+      aim alpha = bearing - (round alpha)
+      maybeAim = Maybe.map aim orientation.alpha
   in div [class "row"]
-         [div [class "col-xs-12 col-sm-4 col-sm-offset-2"]
-              [h3 [] [text ("Distance: " ++ toString roundedDistance ++ "km")]
-              ,h3 [] [text ("Aim: " ++ toString (Maybe.map aim orientation.alpha) ++ " degrees")]
+         [div [class "col-xs-12"]
+              [compass target position orientation
+              ,h3 [] [text ("Distance: " ++ toString roundedDistance ++ "km")]
+              ,h3 [] [text ("Bearing: " ++ toString bearing ++ " degrees")]
+              ,h3 [] [text ("Alpha: " ++ toString orientation.alpha ++ " degrees")]
+              ,h3 [] [text ("Aim: " ++ toString maybeAim ++ " degrees")]
               ,orientationTable orientation
               ,positionTable position]]
 
