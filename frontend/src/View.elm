@@ -58,7 +58,7 @@ frontPage uiChannel model =
     (_,Just (Err err),_) -> orientationErrorView err
     (Just (Ok position), Just (Ok orientation), Just candidate) -> div []
                                                                        [compass candidate.location position orientation
-                                                                       ,button [class "btn btn-block btn-primary"
+                                                                       ,button [class "btn btn-lg btn-block btn-primary"
                                                                                ,onClick uiChannel (FindAction FindAddress.Schema.Reset)]
                                                                                [text "Finish"]]
     _ -> debuggingView model

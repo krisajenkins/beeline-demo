@@ -44,7 +44,7 @@ searchForm uiChannel model =
               ,onEnter (message uiChannel Submit)
               ,on "keyup" targetValue (message (forwardTo uiChannel TermChange))
               ,type' "text"] []
-       ,button [class "btn btn-block btn-success"
+       ,button [class "btn btn-lg btn-block btn-success"
                ,disabled model.loading
                ,type' "submit"
                ,onClick uiChannel Submit]
