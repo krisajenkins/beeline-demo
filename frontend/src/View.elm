@@ -40,7 +40,7 @@ frontPage : Address Action -> Model -> Html
 frontPage uiChannel model =
   case model.geolocation of
     Nothing -> noPositionView
-    Just (Ok position) -> positionView position
+    Just (Ok position) -> positionView model.target position
     Just (Err err) -> positionErrorView uiChannel err
     _ -> div []
              [h1 [] [text "TODO"]
@@ -48,11 +48,14 @@ frontPage uiChannel model =
                   [code []
                         [text (toString model)]]]
 
-positionView : Position -> Html
-positionView position =
-  div [class "row"]
-      [div [class "col-xs-12 col-sm-4 col-sm-offset-2"]
-           [positionTable position]]
+positionView : LatLng -> Position -> Html
+positionView target position =
+  let distance = distanceBetween position.coords target
+      roundedDistance = roundTo 2 distance
+  in div [class "row"]
+         [div [class "col-xs-12 col-sm-4 col-sm-offset-2"]
+              [h3 [] [text ("Distance: " ++ toString roundedDistance ++ "km")]
+              ,positionTable position]]
 
 positionTable : Position -> Html
 positionTable position =
