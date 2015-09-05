@@ -2,6 +2,7 @@ module View
   (rootView)
   where
 
+import Util exposing (..)
 import Geometry exposing (LatLng)
 import Exts.Html.Bootstrap exposing (..)
 import View.Compass exposing (compass)
@@ -24,7 +25,12 @@ contentView uiChannel model =
   div []
       [case model.view of
          FrontPage -> case model.findModel.chosenCandidate of
-                        Nothing -> FindAddress.View.rootView (forwardTo uiChannel FindAction) model.findModel
+                        Nothing -> FindAddress.View.rootView (forwardTo uiChannel FindAction)
+                                                             (case model.geolocation of
+                                                                (Just (Ok position)) -> Just {latitude = position.coords.latitude
+                                                                                             ,longitude = position.coords.latitude}
+                                                                _ -> Nothing)
+                                                             model.findModel
                         Just target -> frontPage uiChannel model]
 
 navbar : Address Action -> Html

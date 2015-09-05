@@ -5,9 +5,13 @@ import Json.Decode.Extra exposing (apply,date)
 import Http exposing (Error)
 import Geometry exposing (LatLng)
 
+type alias Attributes =
+  {city : String}
+
 type alias Candidate =
   {address: String
   ,location: LatLng
+  ,attributes : Attributes
   ,score : Float}
 
 type alias Model =
@@ -29,10 +33,15 @@ decodeLocation = LatLng
   `map`   ("y" := float)
   `apply` ("x" := float)
 
+decodeAttributes : Decoder Attributes
+decodeAttributes = Attributes
+  `map`   ("City" := string)
+
 decodeCandidate : Decoder Candidate
 decodeCandidate = Candidate
   `map`   ("address" := string)
   `apply` ("location" := decodeLocation)
+  `apply` ("attributes" := decodeAttributes)
   `apply` ("score" := float)
 
 decodeFindAddressCandidates : Decoder (List Candidate)

@@ -14,7 +14,7 @@ init =
    ,none)
 
 findCandidates : String -> Effects (Result Error (List Candidate))
-findCandidates term = Effects.task (Task.toResult (Http.get decodeFindAddressCandidates ("http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&singleLine=" ++ term)))
+findCandidates term = Effects.task (Task.toResult (Http.get decodeFindAddressCandidates ("http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&outFields=City&singleLine=" ++ term)))
 
 update : Action -> Model -> (Model, Effects Action)
 update action model =

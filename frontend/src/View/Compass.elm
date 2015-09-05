@@ -5,6 +5,7 @@ import Svg exposing (..)
 import Svg.Attributes exposing (..)
 import Schema exposing (..)
 import Html exposing (Html,div)
+import Util exposing (..)
 
 compass : LatLng -> Position -> Orientation -> Html
 compass target position orientation =
