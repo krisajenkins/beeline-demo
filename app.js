@@ -15575,7 +15575,15 @@ Elm.View.make = function (_elm) {
    err) {
       return A2($Html.div,
       _L.fromArray([$Html$Attributes.$class("alert alert-warning")]),
-      _L.fromArray([$Html.text("Your position is not available. Please check your device settings.")]));
+      _L.fromArray([A2($Html.p,
+                   _L.fromArray([]),
+                   _L.fromArray([$Html.text("Your position is not available.")]))
+                   ,A2($Html.p,
+                   _L.fromArray([]),
+                   _L.fromArray([$Html.text("iPhone: Settings -> Privacy -> Location Services -> Safari Websites -> While Using the App")]))
+                   ,A2($Html.p,
+                   _L.fromArray([]),
+                   _L.fromArray([$Html.text("Please check your device settings.")]))]));
    });
    var orientationErrorView = function (err) {
       return A2($Html.div,
@@ -15842,10 +15850,10 @@ Elm.View.make = function (_elm) {
                       }(),
                       model.findModel);}
                  _U.badCase($moduleName,
-                 "between lines 27 and 34");
+                 "between lines 32 and 39");
               }();}
          _U.badCase($moduleName,
-         "between lines 26 and 34");
+         "between lines 31 and 39");
       }()]));
    });
    var rootView = F2(function (uiChannel,
@@ -15853,9 +15861,13 @@ Elm.View.make = function (_elm) {
       return A2($Html.div,
       _L.fromArray([]),
       _L.fromArray([navbar(uiChannel)
-                   ,$Exts$Html$Bootstrap.containerFluid(_L.fromArray([A2(contentView,
+                   ,$Exts$Html$Bootstrap.containerFluid(_L.fromArray([A2($Html.div,
+                   _L.fromArray([$Html$Attributes.$class("row")]),
+                   _L.fromArray([A2($Html.div,
+                   _L.fromArray([$Html$Attributes.$class("col-xs-12\n                                        col-sm-8 col-sm-offset-2\n                                        col-md-6 col-md-offset-3\n                                        col-lg-4 col-lg-offset-4")]),
+                   _L.fromArray([A2(contentView,
                    uiChannel,
-                   model)]))]));
+                   model)]))]))]))]));
    });
    _elm.View.values = {_op: _op
                       ,rootView: rootView};
