@@ -2291,6 +2291,17 @@ Elm.FindAddress.View.make = function (_elm) {
    $Result = Elm.Result.make(_elm),
    $Signal = Elm.Signal.make(_elm),
    $Util = Elm.Util.make(_elm);
+   var video = A2($Html.div,
+   _L.fromArray([]),
+   _L.fromArray([A2($Html.h1,
+                _L.fromArray([]),
+                _L.fromArray([$Html.text("About")]))
+                ,A2($Html.div,
+                _L.fromArray([$Html$Attributes.$class("embed-responsive embed-responsive-16by9")]),
+                _L.fromArray([A2($Html.iframe,
+                _L.fromArray([$Html$Attributes.$class("embed-responsive-item")
+                             ,$Html$Attributes.src("https://www.youtube.com/embed/pNguieZ4cTc")]),
+                _L.fromArray([]))]))]));
    var resultItem = F3(function (uiChannel,
    currentLocation,
    candidate) {
@@ -2307,7 +2318,7 @@ Elm.FindAddress.View.make = function (_elm) {
                  "km");
                case "Nothing": return "";}
             _U.badCase($moduleName,
-            "between lines 60 and 63");
+            "between lines 63 and 66");
          }();
          return A2($Html.li,
          _L.fromArray([$Html$Attributes.$class("list-group-item")
@@ -2368,6 +2379,9 @@ Elm.FindAddress.View.make = function (_elm) {
                                 $FindAddress$Schema.TermChange)))
                                 ,$Html$Attributes.type$("text")]),
                    _L.fromArray([]))
+                   ,A2($Html.hr,
+                   _L.fromArray([]),
+                   _L.fromArray([]))
                    ,A2($Html.button,
                    _L.fromArray([$Html$Attributes.$class("btn btn-lg btn-block btn-success")
                                 ,$Html$Attributes.disabled(model.loading)
@@ -2406,8 +2420,12 @@ Elm.FindAddress.View.make = function (_elm) {
                            _L.fromArray([]),
                            _L.fromArray([]));}
                       _U.badCase($moduleName,
-                      "between lines 34 and 37");
-                   }()]));
+                      "between lines 34 and 38");
+                   }()
+                   ,A2($Html.hr,
+                   _L.fromArray([]),
+                   _L.fromArray([]))
+                   ,video]));
    });
    _elm.FindAddress.View.values = {_op: _op
                                   ,keyCodeIs: keyCodeIs
@@ -2416,7 +2434,8 @@ Elm.FindAddress.View.make = function (_elm) {
                                   ,rootView: rootView
                                   ,searchForm: searchForm
                                   ,resultsList: resultsList
-                                  ,resultItem: resultItem};
+                                  ,resultItem: resultItem
+                                  ,video: video};
    return _elm.FindAddress.View.values;
 };
 Elm.Geometry = Elm.Geometry || {};
