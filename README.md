@@ -9,7 +9,7 @@ It's a Elm/Geolocation hack for [Geo Hack Day](http://www.geohackdays.com/) 2015
 Disclaimer Only tested on iOS!
 
 ## Inspiration
-My friend's brother has a great idea for cyclists: a smart-compass that allows you to hone in on your destination, exploring the city and turning every journey into a treasure hunt. [See the video](https://www.youtube.com/watch?v=pNguieZ4cTc).
+My friend's brother has a great idea for cyclists: a smart-compass that allows you to home in on your destination, exploring the city and turning every journey into a treasure hunt. [See the video](https://www.youtube.com/watch?v=pNguieZ4cTc).
  
 ## What it does
 Imagine you're a cyclist. You want a heads-up display that will get you to your destination, without getting in your way, or forcing you down a fixed path. You want to ride free, but you still have somewhere to be. So you enter your destination into Beeline, and get a smart compass that will point the way. You always know how far you have to go, and where you're headed. Beyond that, you're free to explore your city.
