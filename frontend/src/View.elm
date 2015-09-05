@@ -135,4 +135,6 @@ orientationErrorView err =
 positionErrorView : Address Action -> PositionError -> Html
 positionErrorView uiChannel err =
   div [class "alert alert-warning"]
-      [text "Your position is not available. Please check your device settings."]
+      [p [] [text "Your position is not available."]
+      ,p [] [text "iPhone: Settings -> Privacy -> Location Services -> Safari Websites -> While Using the App"]
+      ,p [] [text "Please check your device settings."]]
