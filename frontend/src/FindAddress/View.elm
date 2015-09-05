@@ -34,7 +34,9 @@ rootView uiChannel currentLocation model =
       ,case model.candidates of
         Nothing -> span [] []
         Just (Err err) -> div [class "alert alert-danger"] [text <| toString err]
-        Just (Ok xs) -> resultsList uiChannel currentLocation xs]
+        Just (Ok xs) -> resultsList uiChannel currentLocation xs
+      ,hr [] []
+      ,video]
 
 searchForm : Address Action -> Model -> Html
 searchForm uiChannel model =
@@ -44,6 +46,7 @@ searchForm uiChannel model =
               ,onEnter (message uiChannel Submit)
               ,on "keyup" targetValue (message (forwardTo uiChannel TermChange))
               ,type' "text"] []
+       ,hr [] []
        ,button [class "btn btn-lg btn-block btn-success"
                ,disabled model.loading
                ,type' "submit"
@@ -63,3 +66,12 @@ resultItem uiChannel currentLocation candidate =
   in li [class "list-group-item"
         ,onClick uiChannel (ChooseCandidate candidate)]
         [text (candidate.address ++ " " ++ candidate.attributes.city)]
+
+video : Html
+video =
+  div []
+      [h1 [] [text "About"]
+      ,div [class "embed-responsive embed-responsive-16by9"]
+           [iframe [class "embed-responsive-item"
+                   ,src "https://www.youtube.com/embed/pNguieZ4cTc"]
+                   []]]
