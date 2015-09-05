@@ -6,7 +6,6 @@ import Exts.Html.Bootstrap exposing (..)
 import View.Compass exposing (compass)
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.Events exposing (..)
 import Signal exposing (..)
 import Schema exposing (..)
 
@@ -117,11 +116,4 @@ orientationErrorView err =
 positionErrorView : Address Action -> PositionError -> Html
 positionErrorView uiChannel err =
   div [class "alert alert-warning"]
-      (case err.code of
-         1 -> [text "To use this app, you must grant access to your location. Please check your devce settings.."
-              ,button [class "btn btn-primary"
-                      ,onClick uiChannel RequestLocation]
-                      [text "Grant Access"]]
-         2 -> [text "Your position is not available. Please check your device settings."]
-         3 -> [text "Your position is not available. Please check your device settings."]
-         _ -> [text err.message])
+      [text "Your position is not available. Please check your device settings."]

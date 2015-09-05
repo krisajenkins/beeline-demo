@@ -56,7 +56,6 @@ update action model =
     ChangeView v -> ({model | view <- v}, none)
     ChangeLocation l -> ({model | geolocation <- l}, none)
     ChangeOrientation o -> ({model | orientation <- o}, none)
-    RequestLocation -> (model,Effects.map (ChangeLocation << Just) (asEffect requestLocation))
 
 app : App Model
 app = StartApp.start {init = init

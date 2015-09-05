@@ -1,8 +1,5 @@
 module Schema where
 
-import Native.Schema
-import Task exposing (..)
-
 type View
   = NotFoundPage
   | FrontPage
@@ -44,10 +41,6 @@ type Action
   | ChangeView View
   | ChangeOrientation (Maybe (Result String Orientation))
   | ChangeLocation (Maybe (Result PositionError Position))
-  | RequestLocation
-
-requestLocation : Task PositionError Position
-requestLocation = Native.Schema.requestLocation
 
 roundTo : Int -> Float -> Float
 roundTo places =
