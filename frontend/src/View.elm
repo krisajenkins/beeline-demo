@@ -18,7 +18,12 @@ rootView : Address Action -> Model -> Html
 rootView uiChannel model =
   div []
       [navbar uiChannel
-      ,containerFluid [contentView uiChannel model]]
+      ,containerFluid [div [class "row"]
+                           [div [class "col-xs-12
+                                        col-sm-8 col-sm-offset-2
+                                        col-md-6 col-md-offset-3
+                                        col-lg-4 col-lg-offset-4"]
+                                [contentView uiChannel model]]]]
 
 contentView : Address Action -> Model -> Html
 contentView uiChannel model =
