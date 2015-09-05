@@ -45,7 +45,7 @@ frontPage uiChannel model =
     (Just (Err err),_) -> positionErrorView uiChannel err
     (_,Just (Err err)) -> orientationErrorView err
     (Just (Err err),_) -> positionErrorView uiChannel err
-    (Just (Ok position), Just (Ok orientation)) -> positionView model.target position orientation
+    (Just (Ok position), Just (Ok orientation)) -> compass model.target position orientation
     _ -> debuggingView model
 
 debuggingView : Model -> Html
