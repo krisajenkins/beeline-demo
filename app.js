@@ -15811,7 +15811,7 @@ Elm.View.make = function (_elm) {
                                                                      _L.fromArray([A2($Html.a,
                                                                      _L.fromArray([$Html$Attributes.href("#")
                                                                                   ,$Html$Attributes.$class("navbar-brand")]),
-                                                                     _L.fromArray([$Html.text("Geo Hack Day")]))]))
+                                                                     _L.fromArray([$Html.text("Beeline")]))]))
                                                                      ,A2($Html.ul,
                                                                      _L.fromArray([$Html$Attributes.$class("nav navbar-nav navbar-right")]),
                                                                      _L.fromArray([]))]))]));
