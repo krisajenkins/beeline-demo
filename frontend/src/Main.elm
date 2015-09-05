@@ -1,9 +1,10 @@
 module Main where
 
+import Time exposing (every,millisecond)
 import Effects exposing (Effects,Never,none,batch)
 import Html exposing (Html)
 import Result exposing (fromMaybe)
-import Signal exposing (Signal, Mailbox, foldp, mergeMany, (<~), constant)
+import Signal exposing (Signal, Mailbox, foldp, mergeMany, (<~), constant, sampleOn)
 import StartApp exposing (App)
 import Schema exposing (..)
 import Task exposing (Task)
@@ -22,6 +23,8 @@ decodeHash x =
 ------------------------------------------------------------
 -- Geolocation
 ------------------------------------------------------------
+port orientationSignal : Signal (Maybe Orientation)
+port orientationErrorSignal : Signal (Maybe String)
 port geolocationSignal : Signal (Maybe Position)
 port geolocationErrorSignal : Signal (Maybe PositionError)
 
@@ -37,6 +40,12 @@ asEffect = Effects.task << Task.toResult
 init : (Model, Effects Action)
 init =
   ({view = FrontPage
+  -- ,target = {latitude = 51.485167, longitude = -0.271801} -- Chiswick
+  ,target = {latitude = -25.487333, longitude = 137.422671} -- Australia
+  --,target = {latitude = 51.460986, longitude = -0.064116} -- Peckham
+  --,target = {latitude = 40.647067, longitude = -73.949289} -- NYC
+  --,target = {latitude = 51.528182, longitude = -0.086533} -- OLD ST
+   ,orientation = Nothing
    ,geolocation = Nothing}
   ,Effects.none)
 
@@ -46,6 +55,7 @@ update action model =
     NoOp -> (model, none)
     ChangeView v -> ({model | view <- v}, none)
     ChangeLocation l -> ({model | geolocation <- l}, none)
+    ChangeOrientation o -> ({model | orientation <- o}, none)
     RequestLocation -> (model,Effects.map (ChangeLocation << Just) (asEffect requestLocation))
 
 app : App Model
@@ -53,6 +63,8 @@ app = StartApp.start {init = init
                      ,view = rootView
                      ,update = update
                      ,inputs = [ChangeView << decodeHash <~ uriHashSignal
+                               ,ChangeOrientation << Maybe.map Ok <~ sampleOn (every (500 * millisecond)) orientationSignal
+                               ,ChangeOrientation << Maybe.map Err <~ orientationErrorSignal
                                ,ChangeLocation << Maybe.map Ok <~ geolocationSignal
                                ,ChangeLocation << Maybe.map Err <~ geolocationErrorSignal]}
 

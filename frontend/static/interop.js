@@ -7,6 +7,8 @@ window.addEventListener(
             Elm.Main,
             {
                 uriHashSignal : document.location.hash,
+                orientationSignal : null,
+                orientationErrorSignal : null,
                 geolocationSignal : null,
                 geolocationErrorSignal : null
             }
@@ -14,6 +16,10 @@ window.addEventListener(
 
         var sendHash = function (event) {
             app.ports.uriHashSignal.send(document.location.hash);
+        };
+
+        var sendOrientation = function (orientation) {
+            app.ports.orientationSignal.send(orientation);
         };
 
         var sendPosition = function (position) {
@@ -34,6 +40,12 @@ window.addEventListener(
         );;
 
         window.addEventListener('popstate', sendHash, false);
+
+        if (window.DeviceOrientationEvent) {
+            window.addEventListener('deviceorientation', sendOrientation, false);
+        } else {
+            app.ports.orientationErrorSignal.send(positionError);
+        };
     },
     false
 );

@@ -38,24 +38,49 @@ notFoundPage = row [div [class "col-md-8 col-md-offset-2"]
 
 frontPage : Address Action -> Model -> Html
 frontPage uiChannel model =
-  case model.geolocation of
-    Nothing -> noPositionView
-    Just (Ok position) -> positionView model.target position
-    Just (Err err) -> positionErrorView uiChannel err
-    _ -> div []
-             [h1 [] [text "TODO"]
-             ,div []
-                  [code []
-                        [text (toString model)]]]
+  case (model.geolocation,model.orientation) of
+    (Nothing,_) -> noPositionView
+    (_,Nothing) -> noOrientationView
+    (Just (Err err),_) -> positionErrorView uiChannel err
+    (_,Just (Err err)) -> orientationErrorView err
+    (Just (Err err),_) -> positionErrorView uiChannel err
+    (Just (Ok position), Just (Ok orientation)) -> positionView model.target position orientation
+    _ -> debuggingView model
 
-positionView : LatLng -> Position -> Html
-positionView target position =
+debuggingView : Model -> Html
+debuggingView model =
+  div []
+      [h1 [] [text "TODO"]
+      ,div []
+           [code []
+                 [text (toString model)]]]
+
+positionView : LatLng -> Position -> Orientation -> Html
+positionView target position orientation =
   let distance = distanceBetween position.coords target
       roundedDistance = roundTo 2 distance
+      aim a = (bearing position.coords target) - a
   in div [class "row"]
          [div [class "col-xs-12 col-sm-4 col-sm-offset-2"]
               [h3 [] [text ("Distance: " ++ toString roundedDistance ++ "km")]
+              ,h3 [] [text ("Aim: " ++ toString (Maybe.map aim orientation.alpha) ++ " degrees")]
+              ,orientationTable orientation
               ,positionTable position]]
+
+orientationTable : Orientation -> Html
+orientationTable orientation =
+  table [class "table table-condensed table-bordered"]
+        [thead [] []
+        ,tbody []
+               [tr []
+                   [th [] [text "Alpha"]
+                   ,td [] [text (toString orientation.alpha)]]
+               ,tr []
+                   [th [] [text "Beta"]
+                   ,td [] [text (toString orientation.beta)]]
+               ,tr []
+                   [th [] [text "Gamma"]
+                   ,td [] [text (toString orientation.gamma)]]]]
 
 positionTable : Position -> Html
 positionTable position =
@@ -74,6 +99,14 @@ positionTable position =
 
 noPositionView : Html
 noPositionView = h2 [] [text "Awaiting location..."]
+
+noOrientationView : Html
+noOrientationView = h2 [] [text "Awaiting orientation..."]
+
+orientationErrorView : String -> Html
+orientationErrorView err =
+  div [class "alert alert-warning"]
+      [text err]
 
 positionErrorView : Address Action -> PositionError -> Html
 positionErrorView uiChannel err =
