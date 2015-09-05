@@ -5,6 +5,7 @@ module View
 import Exts.Html.Bootstrap exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (..)
 import Signal exposing (..)
 import Schema exposing (..)
 
@@ -18,7 +19,7 @@ contentView : Address Action -> Model -> Html
 contentView uiChannel model =
   div []
       [case model.view of
-         FrontPage -> frontPage model]
+         FrontPage -> frontPage uiChannel model]
 
 navbar : Address Action -> Html
 navbar uiChannel =
@@ -35,11 +36,12 @@ notFoundPage = row [div [class "col-md-8 col-md-offset-2"]
                      [div []
                           [h1 [] [text "404 Not Found"]]]]
 
-frontPage : Model -> Html
-frontPage model =
+frontPage : Address Action -> Model -> Html
+frontPage uiChannel model =
   case model.geolocation of
     Nothing -> noPositionView
     Just (Ok position) -> positionView position
+    Just (Err err) -> positionErrorView uiChannel err
     _ -> div []
              [h1 [] [text "TODO"]
              ,div []
@@ -67,3 +69,15 @@ positionTable position =
 
 noPositionView : Html
 noPositionView = h2 [] [text "Awaiting location..."]
+
+positionErrorView : Address Action -> PositionError -> Html
+positionErrorView uiChannel err =
+  div [class "alert alert-warning"]
+      (case err.code of
+         1 -> [text "To use this app, you must grant access to your location. Please check your devce settings.."
+              ,button [class "btn btn-primary"
+                      ,onClick uiChannel RequestLocation]
+                      [text "Grant Access"]]
+         2 -> [text "Your position is not available. Please check your device settings."]
+         3 -> [text "Your position is not available. Please check your device settings."]
+         _ -> [text err.message])

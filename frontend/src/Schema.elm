@@ -1,5 +1,8 @@
 module Schema where
 
+import Native.Schema
+import Task exposing (..)
+
 type View
   = NotFoundPage
   | FrontPage
@@ -30,3 +33,7 @@ type Action
   = NoOp
   | ChangeView View
   | ChangeLocation (Maybe (Result PositionError Position))
+  | RequestLocation
+
+requestLocation : Task PositionError Position
+requestLocation = Native.Schema.requestLocation

@@ -8,7 +8,6 @@ import StartApp exposing (App)
 import Schema exposing (..)
 import Task exposing (Task)
 import View exposing (..)
-import Schema
 
 ------------------------------------------------------------
 -- View Tracking
@@ -47,6 +46,7 @@ update action model =
     NoOp -> (model, none)
     ChangeView v -> ({model | view <- v}, none)
     ChangeLocation l -> ({model | geolocation <- l}, none)
+    RequestLocation -> (model,Effects.map (ChangeLocation << Just) (asEffect requestLocation))
 
 app : App Model
 app = StartApp.start {init = init
