@@ -1,5 +1,13 @@
 # Beeline
 
+## What Is This
+
+It's a Elm/Geolocation hack for [Geo Hack Day](http://www.geohackdays.com/) 2015.
+
+## [Live Demo](http://krisajenkins.github.io/beeline-demo/)
+
+Disclaimer Only tested on iOS!
+
 ## Inspiration
 My friend's brother has a great idea for cyclists: a smart-compass that allows you to hone in on your destination, exploring the city and turning every journey into a treasure hunt. [See the video](https://www.youtube.com/watch?v=pNguieZ4cTc).
  
