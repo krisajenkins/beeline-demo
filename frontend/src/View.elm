@@ -44,7 +44,7 @@ navbar uiChannel =
         [containerFluid [div [class "navbar-header"]
                              [a [href "#"
                                 ,class "navbar-brand"]
-                                [text "Geo Hack Day"]]
+                                [text "Beeline"]]
                         ,ul [class "nav navbar-nav navbar-right"]
                             []]]
 
