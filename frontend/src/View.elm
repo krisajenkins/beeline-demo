@@ -7,9 +7,11 @@ import Exts.Html.Bootstrap exposing (..)
 import View.Compass exposing (compass)
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (..)
 import Signal exposing (..)
 import Schema exposing (..)
 import FindAddress.View
+import FindAddress.Schema
 
 rootView : Address Action -> Model -> Html
 rootView uiChannel model =
@@ -42,13 +44,17 @@ notFoundPage = row [div [class "col-md-8 col-md-offset-2"]
 
 frontPage : Address Action -> Model -> Html
 frontPage uiChannel model =
-  case (model.geolocation,model.orientation) of
-    (Nothing,_) -> noPositionView
-    (_,Nothing) -> noOrientationView
-    (Just (Err err),_) -> positionErrorView uiChannel err
-    (_,Just (Err err)) -> orientationErrorView err
-    (Just (Err err),_) -> positionErrorView uiChannel err
-    (Just (Ok position), Just (Ok orientation)) -> compass model.target position orientation
+  case (model.geolocation,model.orientation,model.findModel.chosenCandidate) of
+    (Nothing,_,_) -> noPositionView
+    (_,Nothing,_) -> noOrientationView
+    (_,_,Nothing) -> noTargetView
+    (Just (Err err),_,_) -> positionErrorView uiChannel err
+    (_,Just (Err err),_) -> orientationErrorView err
+    (Just (Ok position), Just (Ok orientation), Just candidate) -> div []
+                                                                       [compass candidate.location position orientation
+                                                                       ,button [class "btn btn-block btn-primary"
+                                                                               ,onClick uiChannel (FindAction FindAddress.Schema.Reset)]
+                                                                               [text "Finish"]]
     _ -> debuggingView model
 
 debuggingView : Model -> Html
@@ -108,6 +114,9 @@ positionTable position =
 
 noPositionView : Html
 noPositionView = h2 [] [text "Awaiting location..."]
+
+noTargetView : Html
+noTargetView = h2 [] [text "Error - no target found."]
 
 noOrientationView : Html
 noOrientationView = h2 [] [text "Awaiting orientation..."]

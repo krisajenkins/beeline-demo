@@ -27,13 +27,12 @@ onEnter message =
 rootView : Address Action -> Model -> Html
 rootView uiChannel model =
   div []
-      [h1 [] [text "TODO"]
+      [h3 [] [text "Search for a destination"]
       ,searchForm uiChannel model
       ,case model.candidates of
         Nothing -> span [] []
         Just (Err err) -> div [class "alert alert-danger"] [text <| toString err]
-        Just (Ok xs) -> resultsList uiChannel xs
-      ,div [] [code [] [text (toString model)]]]
+        Just (Ok xs) -> resultsList uiChannel xs]
 
 searchForm : Address Action -> Model -> Html
 searchForm uiChannel model =
@@ -44,17 +43,15 @@ searchForm uiChannel model =
                         ,onEnter (message uiChannel Submit)
                         ,on "keyup" targetValue (message (forwardTo uiChannel TermChange))
                         ,type' "text"] []
-                 ,button [class "btn btn-success"
+                 ,button [class "btn btn-block btn-success"
                          ,type' "button"
                          ,onClick uiChannel Submit]
                          [text "Search"]]]
 
-
-
 resultsList : Address Action -> List Candidate -> Html
 resultsList uiChannel candidates =
   ul [class "list-group"]
-     (List.map (resultItem uiChannel) candidates)
+     (List.map (resultItem uiChannel) (List.sortBy .score candidates))
 
 resultItem : Address Action -> Candidate -> Html
 resultItem uiChannel candidate =

@@ -42,11 +42,6 @@ init : (Model, Effects Action)
 init =
   let (findModel,findEffects) = FindAddress.Main.init
   in ({view = FrontPage
-      ,target = {latitude = 51.485167, longitude = -0.271801} -- Chiswick
-    -- ,target = {latitude = -25.487333, longitude = 137.422671} -- Australia
-     --,target = {latitude = 51.460986, longitude = -0.064116} -- Peckham
-     --,target = {latitude = 40.647067, longitude = -73.949289} -- NYC
-     --,target = {latitude = 51.528182, longitude = -0.086533} -- OLD ST
       ,orientation = Nothing
       ,findModel = findModel
       ,geolocation = Nothing}

@@ -1,6 +1,5 @@
 module Schema where
 
-import Geometry exposing (LatLng)
 import FindAddress.Schema
 
 type View
@@ -32,7 +31,6 @@ type alias PositionError =
 type alias Model =
   {view : View
   ,findModel : FindAddress.Schema.Model
-  ,target : LatLng
   ,orientation : Maybe (Result String Orientation)
   ,geolocation : Maybe (Result PositionError Position)}
 

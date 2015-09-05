@@ -25,4 +25,4 @@ update action model =
     TermChange t -> ({model | term <- Just t}, none)
     SearchCandidates xs -> ({model | candidates <- Just xs}, none)
     ChooseCandidate x -> ({model | chosenCandidate <- Just x}, none)
-    ClearChoice -> ({model | chosenCandidate <- Nothing}, none)
+    Reset -> init

@@ -8,7 +8,7 @@ import Geometry exposing (LatLng)
 type alias Candidate =
   {address: String
   ,location: LatLng
-  ,score : Int}
+  ,score : Float}
 
 type alias Model =
   {term : Maybe String
@@ -21,18 +21,18 @@ type Action
   | Submit
   | SearchCandidates (Result Error (List Candidate))
   | ChooseCandidate Candidate
-  | ClearChoice
+  | Reset
 
 decodeLocation : Decoder LatLng
 decodeLocation = LatLng
-  `map`   ("x" := float)
-  `apply` ("y" := float)
+  `map`   ("y" := float)
+  `apply` ("x" := float)
 
 decodeCandidate : Decoder Candidate
 decodeCandidate = Candidate
   `map`   ("address" := string)
   `apply` ("location" := decodeLocation)
-  `apply` ("score" := int)
+  `apply` ("score" := float)
 
 decodeFindAddressCandidates : Decoder (List Candidate)
 decodeFindAddressCandidates =
