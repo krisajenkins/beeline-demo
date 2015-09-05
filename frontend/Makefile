@@ -1,4 +1,24 @@
-all: dist dist/app.js dist/favicon.ico dist/loading_wheel.gif dist/interop.js dist/index.html dist/vendor dist/style.css dist/bootstrap.min.css
+all: dist dist/app.js dist/favicon.ico dist/loading_wheel.gif dist/interop.js dist/index.html dist/vendor dist/style.css bootstrap less
+
+bootstrap: dist/bootstrap-3.3.4/css/bootstrap-theme.css dist/bootstrap-3.3.4/css/bootstrap-theme.min.css dist/bootstrap-3.3.4/css/bootstrap.css dist/bootstrap-3.3.4/css/bootstrap.min.css dist/bootstrap-3.3.4/fonts/glyphicons-halflings-regular.eot dist/bootstrap-3.3.4/fonts/glyphicons-halflings-regular.svg dist/bootstrap-3.3.4/fonts/glyphicons-halflings-regular.ttf dist/bootstrap-3.3.4/fonts/glyphicons-halflings-regular.woff dist/bootstrap-3.3.4/fonts/glyphicons-halflings-regular.woff2 dist/bootstrap-3.3.4/js/bootstrap.js dist/bootstrap-3.3.4/js/bootstrap.min.js
+
+less: dist/less-2.3.1/less.min.js
+
+dist/bootstrap-3.3.4/fonts/%: vendor/bootstrap-3.3.4/fonts/%
+	@mkdir -p dist/bootstrap-3.3.4/fonts
+	cp $< $@
+
+dist/bootstrap-3.3.4/css/%: vendor/bootstrap-3.3.4/css/%
+	@mkdir -p dist/bootstrap-3.3.4/css
+	cp $< $@
+
+dist/bootstrap-3.3.4/js/%: vendor/bootstrap-3.3.4/js/%
+	@mkdir -p dist/bootstrap-3.3.4/js
+	cp $< $@
+
+dist/less-2.3.1/%: vendor/less-2.3.1/%
+	@mkdir -p dist/less-2.3.1
+	cp $< $@
 
 dist:
 	@mkdir $@
