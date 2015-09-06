@@ -12,16 +12,6 @@ import Task exposing (Task)
 import View exposing (..)
 
 ------------------------------------------------------------
--- View Tracking
-------------------------------------------------------------
-port uriHashSignal : Signal String
-
-decodeHash : String -> View
-decodeHash x =
-  if | x == "" -> FrontPage
-     | otherwise -> NotFoundPage
-
-------------------------------------------------------------
 -- Geolocation
 ------------------------------------------------------------
 port orientationSignal : Signal (Maybe Orientation)
@@ -35,8 +25,7 @@ port geolocationErrorSignal : Signal (Maybe PositionError)
 init : (Model, Effects Action)
 init =
   let (findModel,findEffects) = FindAddress.Main.init
-  in ({view = FrontPage
-      ,orientation = Nothing
+  in ({orientation = Nothing
       ,findModel = findModel
       ,geolocation = Nothing}
      ,Effects.map FindAction findEffects)
@@ -45,7 +34,6 @@ update : Action -> Model -> (Model, Effects Action)
 update action model =
   case action of
     NoOp -> (model, none)
-    ChangeView v -> ({model | view <- v}, none)
     ChangeLocation l -> ({model | geolocation <- l}, none)
     ChangeOrientation o -> ({model | orientation <- o}, none)
     FindAction a -> let (newFindModel, newFindEffects) = FindAddress.Main.update a model.findModel
@@ -55,8 +43,7 @@ app : App Model
 app = StartApp.start {init = init
                      ,view = rootView
                      ,update = update
-                     ,inputs = [ChangeView << decodeHash <~ uriHashSignal
-                               ,ChangeOrientation << Maybe.map Ok <~ sampleOn (every (100 * millisecond)) orientationSignal
+                     ,inputs = [ChangeOrientation << Maybe.map Ok <~ sampleOn (every (100 * millisecond)) orientationSignal
                                ,ChangeOrientation << Maybe.map Err <~ orientationErrorSignal
                                ,ChangeLocation << Maybe.map Ok <~ geolocationSignal
                                ,ChangeLocation << Maybe.map Err <~ geolocationErrorSignal]}

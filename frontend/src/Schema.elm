@@ -2,10 +2,6 @@ module Schema where
 
 import FindAddress.Schema
 
-type View
-  = NotFoundPage
-  | FrontPage
-
 type alias Orientation =
   {alpha : Maybe Float
   ,beta : Maybe Float
@@ -29,14 +25,12 @@ type alias PositionError =
   ,message : String}
 
 type alias Model =
-  {view : View
-  ,findModel : FindAddress.Schema.Model
+  {findModel : FindAddress.Schema.Model
   ,orientation : Maybe (Result String Orientation)
   ,geolocation : Maybe (Result PositionError Position)}
 
 type Action
   = NoOp
-  | ChangeView View
   | ChangeOrientation (Maybe (Result String Orientation))
   | ChangeLocation (Maybe (Result PositionError Position))
   | FindAction FindAddress.Schema.Action

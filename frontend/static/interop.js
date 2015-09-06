@@ -6,17 +6,12 @@ window.addEventListener(
         var app = Elm.fullscreen(
             Elm.Main,
             {
-                uriHashSignal : document.location.hash,
                 orientationSignal : null,
                 orientationErrorSignal : null,
                 geolocationSignal : null,
                 geolocationErrorSignal : null
             }
         );
-
-        var sendHash = function (event) {
-            app.ports.uriHashSignal.send(document.location.hash);
-        };
 
         var sendOrientation = function (orientation) {
             app.ports.orientationSignal.send(orientation);
@@ -37,9 +32,7 @@ window.addEventListener(
             sendPosition,
             sendPositionError,
             {maximumAge : 1000}
-        );;
-
-        window.addEventListener('popstate', sendHash, false);
+        );
 
         if (window.DeviceOrientationEvent) {
             window.addEventListener('deviceorientation', sendOrientation, false);
