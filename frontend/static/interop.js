@@ -13,31 +13,21 @@ window.addEventListener(
             }
         );
 
-        var sendOrientation = function (orientation) {
-            app.ports.orientationSignal.send(orientation);
-        };
-
-        var sendPosition = function (position) {
-            console.log("Got position", position);
-            app.ports.geolocationSignal.send(position);
-        };
-
-        var sendPositionError = function (positionError) {
-            console.error("Got position error", positionError);
-            app.ports.geolocationErrorSignal.send(positionError);
-        };
-
-        navigator.geolocation.getCurrentPosition(sendPosition);
+        navigator.geolocation.getCurrentPosition(app.ports.geolocationSignal.send);
         navigator.geolocation.watchPosition(
-            sendPosition,
-            sendPositionError,
+            app.ports.geolocationSignal.send,
+            app.ports.geolocationErrorSignal.send,
             {maximumAge : 1000}
         );
 
         if (window.DeviceOrientationEvent) {
-            window.addEventListener('deviceorientation', sendOrientation, false);
+            window.addEventListener(
+                'deviceorientation',
+                app.ports.orientationSignal.send,
+                false
+            );
         } else {
-            app.ports.orientationErrorSignal.send(positionError);
+            app.ports.orientationErrorSignal.send("Device does not support orientation checks.");
         };
     },
     false
