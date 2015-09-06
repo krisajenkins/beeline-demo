@@ -49,11 +49,6 @@ navbar uiChannel =
                         ,ul [class "nav navbar-nav navbar-right"]
                             []]]
 
-notFoundPage : Html
-notFoundPage = row [div [class "col-md-8 col-md-offset-2"]
-                     [div []
-                          [h1 [] [text "404 Not Found"]]]]
-
 frontPage : Address Action -> Model -> Html
 frontPage uiChannel model =
   case (model.geolocation,model.orientation,model.findModel.chosenCandidate) of
@@ -67,62 +62,6 @@ frontPage uiChannel model =
                                                                        ,button [class "btn btn-lg btn-block btn-primary"
                                                                                ,onClick uiChannel (FindAction FindAddress.Schema.Reset)]
                                                                                [text "Finish"]]
-    _ -> debuggingView model
-
-debuggingView : Model -> Html
-debuggingView model =
-  div []
-      [h1 [] [text "TODO"]
-      ,div []
-           [code []
-                 [text (toString model)]]]
-
-positionView : LatLng -> Position -> Orientation -> Html
-positionView target position orientation =
-  let distance = distanceBetween position.coords target
-      roundedDistance = roundTo 2 distance
-      bearing = bearingTo position.coords target
-      aim alpha = bearing - alpha
-      maybeAim = Maybe.map aim orientation.alpha
-  in div [class "row"]
-         [div [class "col-xs-12"]
-              [compass target position orientation
-              ,h3 [] [text ("Distance: " ++ toString roundedDistance ++ "km")]
-              ,h3 [] [text ("Bearing: " ++ toString bearing ++ " degrees")]
-              ,h3 [] [text ("Alpha: " ++ toString orientation.alpha ++ " degrees")]
-              ,h3 [] [text ("Aim: " ++ toString maybeAim ++ " degrees")]
-              ,orientationTable orientation
-              ,positionTable position]]
-
-orientationTable : Orientation -> Html
-orientationTable orientation =
-  table [class "table table-condensed table-bordered"]
-        [thead [] []
-        ,tbody []
-               [tr []
-                   [th [] [text "Alpha"]
-                   ,td [] [text (toString orientation.alpha)]]
-               ,tr []
-                   [th [] [text "Beta"]
-                   ,td [] [text (toString orientation.beta)]]
-               ,tr []
-                   [th [] [text "Gamma"]
-                   ,td [] [text (toString orientation.gamma)]]]]
-
-positionTable : Position -> Html
-positionTable position =
-  table [class "table table-condensed table-bordered"]
-        [thead [] []
-        ,tbody []
-               [tr []
-                   [th [] [text "Latitude"]
-                   ,td [] [text (toString position.coords.latitude)]]
-               ,tr []
-                   [th [] [text "Longitude"]
-                   ,td [] [text (toString position.coords.longitude)]]
-               ,tr []
-                   [th [] [text "Timestamp"]
-                   ,td [] [text (toString position.timestamp)]]]]
 
 noPositionView : Html
 noPositionView = h2 [] [text "Awaiting location..."]
