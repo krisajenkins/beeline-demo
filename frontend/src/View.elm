@@ -2,8 +2,9 @@ module View
   (rootView)
   where
 
-import Util exposing (..)
+import Exts.LatLng exposing (distanceBetween,bearingTo)
 import Geometry exposing (LatLng)
+import Exts.Float exposing (roundTo)
 import Exts.Html.Bootstrap exposing (..)
 import View.Compass exposing (compass)
 import Html exposing (..)
@@ -81,7 +82,7 @@ positionView target position orientation =
   let distance = distanceBetween position.coords target
       roundedDistance = roundTo 2 distance
       bearing = bearingTo position.coords target
-      aim alpha = bearing - (round alpha)
+      aim alpha = bearing - alpha
       maybeAim = Maybe.map aim orientation.alpha
   in div [class "row"]
          [div [class "col-xs-12"]

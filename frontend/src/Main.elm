@@ -30,12 +30,6 @@ port geolocationSignal : Signal (Maybe Position)
 port geolocationErrorSignal : Signal (Maybe PositionError)
 
 ------------------------------------------------------------
--- Dashboard Data
-------------------------------------------------------------
-asEffect : Task e a -> Effects (Result e a)
-asEffect = Effects.task << Task.toResult
-
-------------------------------------------------------------
 -- Event stream.
 ------------------------------------------------------------
 init : (Model, Effects Action)

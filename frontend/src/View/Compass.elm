@@ -1,18 +1,19 @@
 module View.Compass where
 
-import Geometry exposing (LatLng)
 import Svg exposing (..)
 import Svg.Attributes exposing (..)
 import Schema exposing (..)
 import Html exposing (Html,div)
-import Util exposing (..)
+import Geometry exposing (LatLng)
+import Exts.LatLng exposing (distanceBetween,bearingTo)
+import Exts.Float exposing (roundTo)
 
 compass : LatLng -> Position -> Orientation -> Html
 compass target position orientation =
   let distance = distanceBetween position.coords target
       roundedDistance = roundTo 2 distance
       bearing = bearingTo position.coords target
-      aim alpha = bearing - (round alpha)
+      aim alpha = bearing - alpha
       maybeAim = Maybe.map aim orientation.alpha
       transformString = case maybeAim of
                           Nothing -> ""

@@ -16,7 +16,7 @@
         "evancz/start-app": "2.0.0 <= v < 3.0.0",
         "evancz/elm-effects": "1.0.0 <= v < 2.0.0",
         "evancz/elm-http": "1.0.0 <= v < 2.0.0",
-        "krisajenkins/elm-exts": "6.0.0 <= v < 8.0.0",
+        "krisajenkins/elm-exts": "8.1.0 <= v < 9.0.0",
         "circuithub/elm-json-extra": "2.0.0 <= v < 3.0.0"
     },
     "elm-version": "0.15.0 <= v < 0.16.0"

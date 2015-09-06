@@ -1,31 +1,19 @@
 module FindAddress.View where
 
 import FindAddress.Schema exposing (..)
-import Json.Decode as Json
 import Html exposing (..)
 import Html.Events exposing (..)
 import Html.Attributes exposing (..)
 import Signal exposing (..)
-import Util exposing (..)
+import Exts.Html.Bootstrap as Bootstrap exposing (Ratio(SixteenByNine))
+import Exts.Html.Events exposing (onEnter)
 import Geometry exposing (LatLng)
+import Exts.Float exposing (roundTo)
+import Exts.LatLng exposing (distanceBetween)
 
 ------------------------------------------------------------
 -- Events
 ------------------------------------------------------------
-keyCodeIs : Int -> Int -> Result String ()
-keyCodeIs expected actual =
-  if expected == actual then Ok () else Err "Not the right key code"
-
-enterKey : Int -> Result String ()
-enterKey = keyCodeIs 13
-
-onEnter : Message -> Attribute
-onEnter message =
-    on "keydown"
-      (Json.customDecoder keyCode enterKey)
-      (always message)
-
-
 rootView : Address Action -> Maybe LatLng -> Model -> Html
 rootView uiChannel currentLocation model =
   div []
@@ -56,22 +44,18 @@ searchForm uiChannel model =
 resultsList : Address Action -> Maybe LatLng -> List Candidate -> Html
 resultsList uiChannel currentLocation candidates =
   ul [class "list-group"]
-     (List.map (resultItem uiChannel currentLocation) (List.sortBy .score candidates))
+     (List.map (resultItem uiChannel currentLocation)
+               (List.sortBy .score candidates))
 
 resultItem : Address Action -> Maybe LatLng -> Candidate -> Html
 resultItem uiChannel currentLocation candidate =
-  let formattedDistance = case currentLocation of
-                            Nothing -> ""
-                            Just location -> toString (roundTo 2 (distanceBetween location candidate.location)) ++ "km"
+  let formattedDistance =
+    case currentLocation of
+      Nothing -> ""
+      Just location -> toString (roundTo 2 (distanceBetween location candidate.location)) ++ "km"
   in li [class "list-group-item"
         ,onClick uiChannel (ChooseCandidate candidate)]
         [text (candidate.address ++ " " ++ candidate.attributes.city)]
 
 video : Html
-video =
-  div []
-      [h1 [] [text "About"]
-      ,div [class "embed-responsive embed-responsive-16by9"]
-           [iframe [class "embed-responsive-item"
-                   ,src "https://www.youtube.com/embed/pNguieZ4cTc"]
-                   []]]
+video = Bootstrap.video SixteenByNine "https://www.youtube.com/embed/pNguieZ4cTc"
