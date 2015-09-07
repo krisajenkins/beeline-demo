@@ -6,7 +6,7 @@
                '(lambda ()
                   (interactive)
                   (require 'magit)
-                  (let ((compile-command (format "cd %sfrontend ; make"
+                  (let ((compile-command (format "cd %s ; make"
                                                  (magit-toplevel))))
                     (save-buffer)
                     (compile compile-command))))))
