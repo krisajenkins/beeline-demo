@@ -6,7 +6,7 @@ It's a Elm/Geolocation hack for [Geo Hack Day](http://www.geohackdays.com/) 2015
 
 ## [Live Demo](http://krisajenkins.github.io/beeline-demo/)
 
-Disclaimer Only tested on iOS!
+Disclaimer: Only tested on iOS!
 
 ## Building
 
