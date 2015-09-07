@@ -1,7 +1,8 @@
 module Main where
 
 import Time exposing (every,millisecond)
-import Effects exposing (Effects,Never,none,batch)
+import Effects exposing (Effects,Never,batch)
+import Exts.Effects exposing (noFx)
 import Html exposing (Html)
 import Result exposing (fromMaybe)
 import Signal exposing (Signal, Mailbox, foldp, mergeMany, (<~), constant, sampleOn)
@@ -33,9 +34,9 @@ init =
 update : Action -> Model -> (Model, Effects Action)
 update action model =
   case action of
-    NoOp -> (model, none)
-    ChangeLocation l -> ({model | geolocation <- l}, none)
-    ChangeOrientation o -> ({model | orientation <- o}, none)
+    NoOp -> noFx model
+    ChangeLocation l -> noFx {model | geolocation <- l}
+    ChangeOrientation o -> noFx {model | orientation <- o}
     FindAction a -> let (newFindModel, newFindEffects) = FindAddress.Main.update a model.findModel
                     in ({model | findModel <- newFindModel}, Effects.map FindAction newFindEffects)
 

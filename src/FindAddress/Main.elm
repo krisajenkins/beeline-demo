@@ -1,17 +1,17 @@
 module FindAddress.Main where
 
 import Task
+import Exts.Effects exposing (noFx)
 import Http exposing (Error)
 import FindAddress.Schema exposing (..)
 import Effects exposing (Effects,none,Never)
 
 init : (Model, Effects Action)
-init =
-  ({term = Nothing
-   ,loading = False
-   ,chosenCandidate = Nothing
-   ,candidates = Nothing}
-   ,none)
+init = noFx
+  {term = Nothing
+  ,loading = False
+  ,chosenCandidate = Nothing
+  ,candidates = Nothing}
 
 findCandidates : String -> Effects (Result Error (List Candidate))
 findCandidates term =
@@ -24,14 +24,13 @@ findCandidates term =
 update : Action -> Model -> (Model, Effects Action)
 update action model =
   case action of
-    NoOp -> (model, none)
+    NoOp -> noFx model
     Submit -> ({model | loading <- True}
               , case model.term of
                   Nothing -> none
                   Just term -> Effects.map SearchCandidates (findCandidates term))
-    TermChange t -> ({model | term <- Just t}, none)
-    SearchCandidates xs -> ({model | candidates <- Just xs
-                                   , loading <- False}
-                           ,none)
-    ChooseCandidate x -> ({model | chosenCandidate <- Just x}, none)
+    TermChange t -> noFx {model | term <- Just t}
+    SearchCandidates xs -> noFx {model | candidates <- Just xs
+                                       , loading <- False}
+    ChooseCandidate x -> noFx {model | chosenCandidate <- Just x}
     Reset -> init
