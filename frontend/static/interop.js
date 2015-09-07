@@ -1,4 +1,4 @@
-/* @flow weak */
+/*global Elm */
 
 window.addEventListener(
     'load',
