@@ -13,12 +13,16 @@ window.addEventListener(
             }
         );
 
-        navigator.geolocation.getCurrentPosition(app.ports.geolocationSignal.send);
-        navigator.geolocation.watchPosition(
-            app.ports.geolocationSignal.send,
-            app.ports.geolocationErrorSignal.send,
-            {maximumAge : 1000}
-        );
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(app.ports.geolocationSignal.send);
+            navigator.geolocation.watchPosition(
+                app.ports.geolocationSignal.send,
+                app.ports.geolocationErrorSignal.send,
+                {maximumAge : 1000}
+            );
+        } else {
+            app.ports.geolocationErrorSignal.send("Device does not support geolocation checks.");
+        }
 
         if (window.DeviceOrientationEvent) {
             window.addEventListener(
