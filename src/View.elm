@@ -15,7 +15,19 @@ import FindAddress.Schema
 rootView : Address Action -> Model -> Html
 rootView uiChannel model =
   div []
-      [navbar uiChannel
+      [node "link" [href "bootstrap-3.3.4/css/bootstrap.min.css"
+                   ,rel "stylesheet"]
+                   []
+      ,node "link" [href "style.css"
+                   ,type' "text/css"
+                   ,rel "stylesheet"]
+                   []
+      ,node "meta" [charset "UTF-8.css"]
+                   []
+      ,node "meta" [name "viewport"
+                   ,content "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"]
+                   []
+      ,navbar uiChannel
       ,containerFluid [div [class "row"]
                            [div [class "col-xs-12
                                         col-sm-8 col-sm-offset-2
