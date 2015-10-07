@@ -33,7 +33,7 @@ searchForm uiChannel model =
        [input [class "form-control"
               ,autofocus True
               ,onEnter (message uiChannel Submit)
-              ,on "keyup" targetValue (message (forwardTo uiChannel TermChange))
+              ,on "keyup" targetValue (message uiChannel << TermChange)
               ,type' "text"] []
        ,hr [] []
        ,button [class "btn btn-lg btn-block btn-success"
