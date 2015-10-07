@@ -45,4 +45,4 @@ decodeCandidate = Candidate
 
 decodeFindAddressCandidates : Decoder (List Candidate)
 decodeFindAddressCandidates =
-  at ["candidates"] (list decodeCandidate)
+  "candidates" := (list decodeCandidate)
