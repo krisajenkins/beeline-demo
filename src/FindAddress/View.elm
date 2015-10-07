@@ -22,6 +22,7 @@ rootView uiChannel currentLocation model =
       ,case model.candidates of
         Nothing -> span [] []
         Just (Err err) -> div [class "alert alert-danger"] [text <| toString err]
+        Just (Ok []) -> emptyResultsList
         Just (Ok xs) -> resultsList uiChannel currentLocation xs
       ,hr [] []
       ,video]
@@ -40,6 +41,11 @@ searchForm uiChannel model =
                ,type' "submit"
                ,onClick uiChannel Submit]
                [text "Search"]])
+
+emptyResultsList : Html
+emptyResultsList =
+  div [class "alert alert-warning"]
+      [text "No results found."]
 
 resultsList : Address Action -> Maybe LatLng -> List Candidate -> Html
 resultsList uiChannel currentLocation candidates =
