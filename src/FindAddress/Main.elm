@@ -24,7 +24,6 @@ findCandidates term =
 update : Action -> Model -> (Model, Effects Action)
 update action model =
   case action of
-    NoOp -> noFx model
     Submit -> ({model | loading <- True}
               , case model.term of
                   Nothing -> none

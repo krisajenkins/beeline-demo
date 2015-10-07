@@ -34,7 +34,6 @@ init =
 update : Action -> Model -> (Model, Effects Action)
 update action model =
   case action of
-    NoOp -> noFx model
     ChangeLocation l -> noFx {model | geolocation <- l}
     ChangeOrientation o -> noFx {model | orientation <- o}
     FindAction a -> let (newFindModel, newFindEffects) = FindAddress.Main.update a model.findModel

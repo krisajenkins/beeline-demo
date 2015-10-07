@@ -30,7 +30,6 @@ type alias Model =
   ,geolocation : Maybe (Result PositionError Position)}
 
 type Action
-  = NoOp
-  | ChangeOrientation (Maybe (Result String Orientation))
+  = ChangeOrientation (Maybe (Result String Orientation))
   | ChangeLocation (Maybe (Result PositionError Position))
   | FindAction FindAddress.Schema.Action

@@ -21,8 +21,7 @@ type alias Model =
   ,candidates : Maybe (Result Error (List Candidate))}
 
 type Action
-  = NoOp
-  | TermChange String
+  = TermChange String
   | Submit
   | SearchCandidates (Result Error (List Candidate))
   | ChooseCandidate Candidate
