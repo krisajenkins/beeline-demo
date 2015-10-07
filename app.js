@@ -2021,6 +2021,75 @@ Elm.Effects.make = function (_elm) {
    return _elm.Effects.values;
 };
 Elm.Exts = Elm.Exts || {};
+Elm.Exts.Effects = Elm.Exts.Effects || {};
+Elm.Exts.Effects.make = function (_elm) {
+   "use strict";
+   _elm.Exts = _elm.Exts || {};
+   _elm.Exts.Effects = _elm.Exts.Effects || {};
+   if (_elm.Exts.Effects.values)
+   return _elm.Exts.Effects.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   $moduleName = "Exts.Effects",
+   $Basics = Elm.Basics.make(_elm),
+   $Effects = Elm.Effects.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $Task = Elm.Task.make(_elm);
+   var noFx = function (model) {
+      return {ctor: "_Tuple2"
+             ,_0: model
+             ,_1: $Effects.none};
+   };
+   var asEffect = function ($) {
+      return $Effects.task($Task.toResult($));
+   };
+   _elm.Exts.Effects.values = {_op: _op
+                              ,asEffect: asEffect
+                              ,noFx: noFx};
+   return _elm.Exts.Effects.values;
+};
+Elm.Exts = Elm.Exts || {};
+Elm.Exts.Float = Elm.Exts.Float || {};
+Elm.Exts.Float.make = function (_elm) {
+   "use strict";
+   _elm.Exts = _elm.Exts || {};
+   _elm.Exts.Float = _elm.Exts.Float || {};
+   if (_elm.Exts.Float.values)
+   return _elm.Exts.Float.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   $moduleName = "Exts.Float",
+   $Basics = Elm.Basics.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var roundTo = function (places) {
+      return function () {
+         var factor = Math.pow(10,
+         places);
+         return function ($) {
+            return function (n) {
+               return n / factor;
+            }($Basics.toFloat($Basics.round(F2(function (x,
+            y) {
+               return x * y;
+            })(factor)($))));
+         };
+      }();
+   };
+   _elm.Exts.Float.values = {_op: _op
+                            ,roundTo: roundTo};
+   return _elm.Exts.Float.values;
+};
+Elm.Exts = Elm.Exts || {};
 Elm.Exts.Html = Elm.Exts.Html || {};
 Elm.Exts.Html.Bootstrap = Elm.Exts.Html.Bootstrap || {};
 Elm.Exts.Html.Bootstrap.make = function (_elm) {
@@ -2042,6 +2111,33 @@ Elm.Exts.Html.Bootstrap.make = function (_elm) {
    $Maybe = Elm.Maybe.make(_elm),
    $Result = Elm.Result.make(_elm),
    $Signal = Elm.Signal.make(_elm);
+   var video = F2(function (ratio,
+   url) {
+      return function () {
+         var ratioClass = function () {
+            switch (ratio.ctor)
+            {case "FourByThree":
+               return "embed-responsive-4by3";
+               case "SixteenByNine":
+               return "embed-responsive-16by9";}
+            _U.badCase($moduleName,
+            "between lines 41 and 44");
+         }();
+         return A2($Html.div,
+         _L.fromArray([]),
+         _L.fromArray([A2($Html.h1,
+                      _L.fromArray([]),
+                      _L.fromArray([$Html.text("About")]))
+                      ,A2($Html.div,
+                      _L.fromArray([$Html$Attributes.$class("embed-responsive")]),
+                      _L.fromArray([A2($Html.iframe,
+                      _L.fromArray([$Html$Attributes.$class("embed-responsive-item")
+                                   ,$Html$Attributes.src(url)]),
+                      _L.fromArray([]))]))]));
+      }();
+   });
+   var FourByThree = {ctor: "FourByThree"};
+   var SixteenByNine = {ctor: "SixteenByNine"};
    var empty = A2($Html.span,
    _L.fromArray([]),
    _L.fromArray([]));
@@ -2062,8 +2158,100 @@ Elm.Exts.Html.Bootstrap.make = function (_elm) {
                                      ,containerFluid: containerFluid
                                      ,row: row
                                      ,empty: empty
-                                     ,twoColumns: twoColumns};
+                                     ,twoColumns: twoColumns
+                                     ,SixteenByNine: SixteenByNine
+                                     ,FourByThree: FourByThree
+                                     ,video: video};
    return _elm.Exts.Html.Bootstrap.values;
+};
+Elm.Exts = Elm.Exts || {};
+Elm.Exts.Html = Elm.Exts.Html || {};
+Elm.Exts.Html.Events = Elm.Exts.Html.Events || {};
+Elm.Exts.Html.Events.make = function (_elm) {
+   "use strict";
+   _elm.Exts = _elm.Exts || {};
+   _elm.Exts.Html = _elm.Exts.Html || {};
+   _elm.Exts.Html.Events = _elm.Exts.Html.Events || {};
+   if (_elm.Exts.Html.Events.values)
+   return _elm.Exts.Html.Events.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   $moduleName = "Exts.Html.Events",
+   $Basics = Elm.Basics.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Html$Events = Elm.Html.Events.make(_elm),
+   $Json$Decode = Elm.Json.Decode.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var keyCodeIs = F2(function (expected,
+   actual) {
+      return _U.eq(expected,
+      actual) ? $Result.Ok({ctor: "_Tuple0"}) : $Result.Err("Not the right key code");
+   });
+   var enterKey = keyCodeIs(13);
+   var onEnter = function (message) {
+      return A3($Html$Events.on,
+      "keydown",
+      A2($Json$Decode.customDecoder,
+      $Html$Events.keyCode,
+      enterKey),
+      $Basics.always(message));
+   };
+   _elm.Exts.Html.Events.values = {_op: _op
+                                  ,onEnter: onEnter};
+   return _elm.Exts.Html.Events.values;
+};
+Elm.Exts = Elm.Exts || {};
+Elm.Exts.LatLng = Elm.Exts.LatLng || {};
+Elm.Exts.LatLng.make = function (_elm) {
+   "use strict";
+   _elm.Exts = _elm.Exts || {};
+   _elm.Exts.LatLng = _elm.Exts.LatLng || {};
+   if (_elm.Exts.LatLng.values)
+   return _elm.Exts.LatLng.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   $moduleName = "Exts.LatLng",
+   $Basics = Elm.Basics.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var bearingTo = F2(function (a,
+   b) {
+      return function () {
+         var dlon = $Basics.degrees(b.longitude) - $Basics.degrees(a.longitude);
+         var y = $Basics.sin(dlon) * $Basics.cos($Basics.degrees(b.latitude));
+         var x = $Basics.cos($Basics.degrees(a.latitude)) * $Basics.sin($Basics.degrees(b.latitude)) - $Basics.sin($Basics.degrees(a.latitude)) * $Basics.cos($Basics.degrees(b.latitude)) * $Basics.cos(dlon);
+         var bearing = A2($Basics.atan2,
+         y,
+         x) * (180 / $Basics.pi);
+         return bearing;
+      }();
+   });
+   var distanceBetween = F2(function (a,
+   b) {
+      return function () {
+         var dlng = $Basics.degrees(b.longitude - a.longitude);
+         var dlat = $Basics.degrees(b.latitude - a.latitude);
+         var v1 = $Basics.sin(dlat / 2) * $Basics.sin(dlat / 2) + $Basics.cos($Basics.degrees(a.latitude)) * $Basics.cos($Basics.degrees(b.latitude)) * $Basics.sin(dlng / 2) * $Basics.sin(dlng / 2);
+         var v2 = 2 * A2($Basics.atan2,
+         $Basics.sqrt(v1),
+         $Basics.sqrt(1 - v1));
+         var earthRadius = 6371;
+         return earthRadius * v2;
+      }();
+   });
+   _elm.Exts.LatLng.values = {_op: _op
+                             ,distanceBetween: distanceBetween
+                             ,bearingTo: bearingTo};
+   return _elm.Exts.LatLng.values;
 };
 Elm.FindAddress = Elm.FindAddress || {};
 Elm.FindAddress.Main = Elm.FindAddress.Main || {};
@@ -2080,6 +2268,7 @@ Elm.FindAddress.Main.make = function (_elm) {
    $moduleName = "FindAddress.Main",
    $Basics = Elm.Basics.make(_elm),
    $Effects = Elm.Effects.make(_elm),
+   $Exts$Effects = Elm.Exts.Effects.make(_elm),
    $FindAddress$Schema = Elm.FindAddress.Schema.make(_elm),
    $Http = Elm.Http.make(_elm),
    $List = Elm.List.make(_elm),
@@ -2088,41 +2277,31 @@ Elm.FindAddress.Main.make = function (_elm) {
    $Signal = Elm.Signal.make(_elm),
    $Task = Elm.Task.make(_elm);
    var findCandidates = function (term) {
-      return $Effects.task($Task.toResult(A2($Http.get,
-      $FindAddress$Schema.decodeFindAddressCandidates,
+      return $Effects.task($Task.toResult($Http.get($FindAddress$Schema.decodeFindAddressCandidates)(A2($Basics._op["++"],
+      "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates",
       A2($Basics._op["++"],
-      "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?f=json&outFields=City&singleLine=",
-      term))));
+      "?f=json&outFields=City&singleLine=",
+      $Http.uriEncode(term))))));
    };
-   var init = {ctor: "_Tuple2"
-              ,_0: {_: {}
-                   ,candidates: $Maybe.Nothing
-                   ,chosenCandidate: $Maybe.Nothing
-                   ,loading: false
-                   ,term: $Maybe.Nothing}
-              ,_1: $Effects.none};
+   var init = $Exts$Effects.noFx({_: {}
+                                 ,candidates: $Maybe.Nothing
+                                 ,chosenCandidate: $Maybe.Nothing
+                                 ,loading: false
+                                 ,term: $Maybe.Nothing});
    var update = F2(function (action,
    model) {
       return function () {
          switch (action.ctor)
          {case "ChooseCandidate":
-            return {ctor: "_Tuple2"
-                   ,_0: _U.replace([["chosenCandidate"
-                                    ,$Maybe.Just(action._0)]],
-                   model)
-                   ,_1: $Effects.none};
-            case "NoOp":
-            return {ctor: "_Tuple2"
-                   ,_0: model
-                   ,_1: $Effects.none};
+            return $Exts$Effects.noFx(_U.replace([["chosenCandidate"
+                                                  ,$Maybe.Just(action._0)]],
+              model));
             case "Reset": return init;
             case "SearchCandidates":
-            return {ctor: "_Tuple2"
-                   ,_0: _U.replace([["candidates"
-                                    ,$Maybe.Just(action._0)]
-                                   ,["loading",false]],
-                   model)
-                   ,_1: $Effects.none};
+            return $Exts$Effects.noFx(_U.replace([["candidates"
+                                                  ,$Maybe.Just(action._0)]
+                                                 ,["loading",false]],
+              model));
             case "Submit":
             return {ctor: "_Tuple2"
                    ,_0: _U.replace([["loading"
@@ -2138,16 +2317,14 @@ Elm.FindAddress.Main.make = function (_elm) {
                          case "Nothing":
                          return $Effects.none;}
                       _U.badCase($moduleName,
-                      "between lines 24 and 26");
+                      "between lines 28 and 30");
                    }()};
             case "TermChange":
-            return {ctor: "_Tuple2"
-                   ,_0: _U.replace([["term"
-                                    ,$Maybe.Just(action._0)]],
-                   model)
-                   ,_1: $Effects.none};}
+            return $Exts$Effects.noFx(_U.replace([["term"
+                                                  ,$Maybe.Just(action._0)]],
+              model));}
          _U.badCase($moduleName,
-         "between lines 21 and 32");
+         "between lines 26 and 35");
       }();
    });
    _elm.FindAddress.Main.values = {_op: _op
@@ -2201,7 +2378,6 @@ Elm.FindAddress.Schema.make = function (_elm) {
       return {ctor: "TermChange"
              ,_0: a};
    };
-   var NoOp = {ctor: "NoOp"};
    var Model = F4(function (a,
    b,
    c,
@@ -2247,14 +2423,13 @@ Elm.FindAddress.Schema.make = function (_elm) {
    A2($Json$Decode._op[":="],
    "score",
    $Json$Decode.$float));
-   var decodeFindAddressCandidates = A2($Json$Decode.at,
-   _L.fromArray(["candidates"]),
+   var decodeFindAddressCandidates = A2($Json$Decode._op[":="],
+   "candidates",
    $Json$Decode.list(decodeCandidate));
    _elm.FindAddress.Schema.values = {_op: _op
                                     ,Attributes: Attributes
                                     ,Candidate: Candidate
                                     ,Model: Model
-                                    ,NoOp: NoOp
                                     ,TermChange: TermChange
                                     ,Submit: Submit
                                     ,SearchCandidates: SearchCandidates
@@ -2280,28 +2455,22 @@ Elm.FindAddress.View.make = function (_elm) {
    _L = _N.List.make(_elm),
    $moduleName = "FindAddress.View",
    $Basics = Elm.Basics.make(_elm),
+   $Exts$Float = Elm.Exts.Float.make(_elm),
+   $Exts$Html$Bootstrap = Elm.Exts.Html.Bootstrap.make(_elm),
+   $Exts$Html$Events = Elm.Exts.Html.Events.make(_elm),
+   $Exts$LatLng = Elm.Exts.LatLng.make(_elm),
    $FindAddress$Schema = Elm.FindAddress.Schema.make(_elm),
    $Geometry = Elm.Geometry.make(_elm),
    $Html = Elm.Html.make(_elm),
    $Html$Attributes = Elm.Html.Attributes.make(_elm),
    $Html$Events = Elm.Html.Events.make(_elm),
-   $Json$Decode = Elm.Json.Decode.make(_elm),
    $List = Elm.List.make(_elm),
    $Maybe = Elm.Maybe.make(_elm),
    $Result = Elm.Result.make(_elm),
-   $Signal = Elm.Signal.make(_elm),
-   $Util = Elm.Util.make(_elm);
-   var video = A2($Html.div,
-   _L.fromArray([]),
-   _L.fromArray([A2($Html.h1,
-                _L.fromArray([]),
-                _L.fromArray([$Html.text("About")]))
-                ,A2($Html.div,
-                _L.fromArray([$Html$Attributes.$class("embed-responsive embed-responsive-16by9")]),
-                _L.fromArray([A2($Html.iframe,
-                _L.fromArray([$Html$Attributes.$class("embed-responsive-item")
-                             ,$Html$Attributes.src("https://www.youtube.com/embed/pNguieZ4cTc")]),
-                _L.fromArray([]))]))]));
+   $Signal = Elm.Signal.make(_elm);
+   var video = A2($Exts$Html$Bootstrap.video,
+   $Exts$Html$Bootstrap.SixteenByNine,
+   "https://www.youtube.com/embed/pNguieZ4cTc");
    var resultItem = F3(function (uiChannel,
    currentLocation,
    candidate) {
@@ -2310,15 +2479,15 @@ Elm.FindAddress.View.make = function (_elm) {
             switch (currentLocation.ctor)
             {case "Just":
                return A2($Basics._op["++"],
-                 $Basics.toString(A2($Util.roundTo,
+                 $Basics.toString(A2($Exts$Float.roundTo,
                  2,
-                 A2($Util.distanceBetween,
+                 A2($Exts$LatLng.distanceBetween,
                  currentLocation._0,
                  candidate.location))),
                  "km");
                case "Nothing": return "";}
             _U.badCase($moduleName,
-            "between lines 63 and 66");
+            "between lines 59 and 62");
          }();
          return A2($Html.li,
          _L.fromArray([$Html$Attributes.$class("list-group-item")
@@ -2347,20 +2516,9 @@ Elm.FindAddress.View.make = function (_elm) {
       },
       candidates)));
    });
-   var keyCodeIs = F2(function (expected,
-   actual) {
-      return _U.eq(expected,
-      actual) ? $Result.Ok({ctor: "_Tuple0"}) : $Result.Err("Not the right key code");
-   });
-   var enterKey = keyCodeIs(13);
-   var onEnter = function (message) {
-      return A3($Html$Events.on,
-      "keydown",
-      A2($Json$Decode.customDecoder,
-      $Html$Events.keyCode,
-      enterKey),
-      $Basics.always(message));
-   };
+   var emptyResultsList = A2($Html.div,
+   _L.fromArray([$Html$Attributes.$class("alert alert-warning")]),
+   _L.fromArray([$Html.text("No results found.")]));
    var searchForm = F2(function (uiChannel,
    model) {
       return A2($Html.div,
@@ -2368,15 +2526,15 @@ Elm.FindAddress.View.make = function (_elm) {
       _L.fromArray([A2($Html.input,
                    _L.fromArray([$Html$Attributes.$class("form-control")
                                 ,$Html$Attributes.autofocus(true)
-                                ,onEnter(A2($Signal.message,
+                                ,$Exts$Html$Events.onEnter(A2($Signal.message,
                                 uiChannel,
                                 $FindAddress$Schema.Submit))
                                 ,A3($Html$Events.on,
                                 "keyup",
                                 $Html$Events.targetValue,
-                                $Signal.message(A2($Signal.forwardTo,
-                                uiChannel,
-                                $FindAddress$Schema.TermChange)))
+                                function ($) {
+                                   return $Signal.message(uiChannel)($FindAddress$Schema.TermChange($));
+                                })
                                 ,$Html$Attributes.type$("text")]),
                    _L.fromArray([]))
                    ,A2($Html.hr,
@@ -2410,7 +2568,10 @@ Elm.FindAddress.View.make = function (_elm) {
                                 _L.fromArray([$Html$Attributes.$class("alert alert-danger")]),
                                 _L.fromArray([$Html.text($Basics.toString(_v2._0._0))]));
                               case "Ok":
-                              return A3(resultsList,
+                              switch (_v2._0._0.ctor)
+                                {case "[]":
+                                   return emptyResultsList;}
+                                return A3(resultsList,
                                 uiChannel,
                                 currentLocation,
                                 _v2._0._0);}
@@ -2420,7 +2581,7 @@ Elm.FindAddress.View.make = function (_elm) {
                            _L.fromArray([]),
                            _L.fromArray([]));}
                       _U.badCase($moduleName,
-                      "between lines 34 and 38");
+                      "between lines 22 and 27");
                    }()
                    ,A2($Html.hr,
                    _L.fromArray([]),
@@ -2428,11 +2589,9 @@ Elm.FindAddress.View.make = function (_elm) {
                    ,video]));
    });
    _elm.FindAddress.View.values = {_op: _op
-                                  ,keyCodeIs: keyCodeIs
-                                  ,enterKey: enterKey
-                                  ,onEnter: onEnter
                                   ,rootView: rootView
                                   ,searchForm: searchForm
+                                  ,emptyResultsList: emptyResultsList
                                   ,resultsList: resultsList
                                   ,resultItem: resultItem
                                   ,video: video};
@@ -5226,6 +5385,7 @@ Elm.Main.make = function (_elm) {
    $moduleName = "Main",
    $Basics = Elm.Basics.make(_elm),
    $Effects = Elm.Effects.make(_elm),
+   $Exts$Effects = Elm.Exts.Effects.make(_elm),
    $FindAddress$Main = Elm.FindAddress.Main.make(_elm),
    $Html = Elm.Html.make(_elm),
    $List = Elm.List.make(_elm),
@@ -5242,23 +5402,13 @@ Elm.Main.make = function (_elm) {
       return function () {
          switch (action.ctor)
          {case "ChangeLocation":
-            return {ctor: "_Tuple2"
-                   ,_0: _U.replace([["geolocation"
-                                    ,action._0]],
-                   model)
-                   ,_1: $Effects.none};
+            return $Exts$Effects.noFx(_U.replace([["geolocation"
+                                                  ,action._0]],
+              model));
             case "ChangeOrientation":
-            return {ctor: "_Tuple2"
-                   ,_0: _U.replace([["orientation"
-                                    ,action._0]],
-                   model)
-                   ,_1: $Effects.none};
-            case "ChangeView":
-            return {ctor: "_Tuple2"
-                   ,_0: _U.replace([["view"
-                                    ,action._0]],
-                   model)
-                   ,_1: $Effects.none};
+            return $Exts$Effects.noFx(_U.replace([["orientation"
+                                                  ,action._0]],
+              model));
             case "FindAction":
             return function () {
                  var $ = A2($FindAddress$Main.update,
@@ -5273,13 +5423,9 @@ Elm.Main.make = function (_elm) {
                         ,_1: A2($Effects.map,
                         $Schema.FindAction,
                         newFindEffects)};
-              }();
-            case "NoOp":
-            return {ctor: "_Tuple2"
-                   ,_0: model
-                   ,_1: $Effects.none};}
+              }();}
          _U.badCase($moduleName,
-         "between lines 52 and 58");
+         "between lines 36 and 40");
       }();
    });
    var init = function () {
@@ -5290,15 +5436,11 @@ Elm.Main.make = function (_elm) {
              ,_0: {_: {}
                   ,findModel: findModel
                   ,geolocation: $Maybe.Nothing
-                  ,orientation: $Maybe.Nothing
-                  ,view: $Schema.FrontPage}
+                  ,orientation: $Maybe.Nothing}
              ,_1: A2($Effects.map,
              $Schema.FindAction,
              findEffects)};
    }();
-   var asEffect = function ($) {
-      return $Effects.task($Task.toResult($));
-   };
    var geolocationErrorSignal = Elm.Native.Port.make(_elm).inboundSignal("geolocationErrorSignal",
    "Maybe.Maybe Schema.PositionError",
    function (v) {
@@ -5351,24 +5493,9 @@ Elm.Main.make = function (_elm) {
                                                                                                                                                           v.gamma))} : _U.badPort("an object with fields `alpha`, `beta`, `gamma`",
       v));
    });
-   var decodeHash = function (x) {
-      return _U.eq(x,
-      "") ? $Schema.FrontPage : $Schema.NotFoundPage;
-   };
-   var uriHashSignal = Elm.Native.Port.make(_elm).inboundSignal("uriHashSignal",
-   "String",
-   function (v) {
-      return typeof v === "string" || typeof v === "object" && v instanceof String ? v : _U.badPort("a string",
-      v);
-   });
    var app = $StartApp.start({_: {}
                              ,init: init
                              ,inputs: _L.fromArray([A2($Signal._op["<~"],
-                                                   function ($) {
-                                                      return $Schema.ChangeView(decodeHash($));
-                                                   },
-                                                   uriHashSignal)
-                                                   ,A2($Signal._op["<~"],
                                                    function ($) {
                                                       return $Schema.ChangeOrientation($Maybe.map($Result.Ok)($));
                                                    },
@@ -5396,8 +5523,6 @@ Elm.Main.make = function (_elm) {
    var tasks = Elm.Native.Task.make(_elm).performSignal("tasks",
    app.tasks);
    _elm.Main.values = {_op: _op
-                      ,decodeHash: decodeHash
-                      ,asEffect: asEffect
                       ,init: init
                       ,update: update
                       ,app: app
@@ -13738,20 +13863,13 @@ Elm.Schema.make = function (_elm) {
       return {ctor: "ChangeOrientation"
              ,_0: a};
    };
-   var ChangeView = function (a) {
-      return {ctor: "ChangeView"
-             ,_0: a};
-   };
-   var NoOp = {ctor: "NoOp"};
-   var Model = F4(function (a,
+   var Model = F3(function (a,
    b,
-   c,
-   d) {
+   c) {
       return {_: {}
-             ,findModel: b
-             ,geolocation: d
-             ,orientation: c
-             ,view: a};
+             ,findModel: a
+             ,geolocation: c
+             ,orientation: b};
    });
    var PositionError = F2(function (a,
    b) {
@@ -13789,18 +13907,12 @@ Elm.Schema.make = function (_elm) {
              ,beta: b
              ,gamma: c};
    });
-   var FrontPage = {ctor: "FrontPage"};
-   var NotFoundPage = {ctor: "NotFoundPage"};
    _elm.Schema.values = {_op: _op
-                        ,NotFoundPage: NotFoundPage
-                        ,FrontPage: FrontPage
                         ,Orientation: Orientation
                         ,Coordinates: Coordinates
                         ,Position: Position
                         ,PositionError: PositionError
                         ,Model: Model
-                        ,NoOp: NoOp
-                        ,ChangeView: ChangeView
                         ,ChangeOrientation: ChangeOrientation
                         ,ChangeLocation: ChangeLocation
                         ,FindAction: FindAction};
@@ -15427,124 +15539,6 @@ Elm.Transform2D.make = function (_elm) {
                              ,scaleY: scaleY};
    return _elm.Transform2D.values;
 };
-Elm.Util = Elm.Util || {};
-Elm.Util.make = function (_elm) {
-   "use strict";
-   _elm.Util = _elm.Util || {};
-   if (_elm.Util.values)
-   return _elm.Util.values;
-   var _op = {},
-   _N = Elm.Native,
-   _U = _N.Utils.make(_elm),
-   _L = _N.List.make(_elm),
-   $moduleName = "Util",
-   $Basics = Elm.Basics.make(_elm),
-   $List = Elm.List.make(_elm),
-   $Maybe = Elm.Maybe.make(_elm),
-   $Result = Elm.Result.make(_elm),
-   $Signal = Elm.Signal.make(_elm);
-   var bearingTo = F2(function (a,
-   b) {
-      return function () {
-         var dlon = $Basics.degrees(b.longitude) - $Basics.degrees(a.longitude);
-         var y = $Basics.sin(dlon) * $Basics.cos($Basics.degrees(b.latitude));
-         var x = $Basics.cos($Basics.degrees(a.latitude)) * $Basics.sin($Basics.degrees(b.latitude)) - $Basics.sin($Basics.degrees(a.latitude)) * $Basics.cos($Basics.degrees(b.latitude)) * $Basics.cos(dlon);
-         var bearing = A2($Basics.atan2,
-         y,
-         x) * (180 / $Basics.pi);
-         return A2($Basics._op["%"],
-         $Basics.round(bearing) + 360,
-         360);
-      }();
-   });
-   var distanceBetween = F2(function (a,
-   b) {
-      return function () {
-         var dlng = $Basics.degrees(b.longitude - a.longitude);
-         var dlat = $Basics.degrees(b.latitude - a.latitude);
-         var v1 = $Basics.sin(dlat / 2) * $Basics.sin(dlat / 2) + $Basics.cos($Basics.degrees(a.latitude)) * $Basics.cos($Basics.degrees(b.latitude)) * $Basics.sin(dlng / 2) * $Basics.sin(dlng / 2);
-         var v2 = 2 * A2($Basics.atan2,
-         $Basics.sqrt(v1),
-         $Basics.sqrt(1 - v1));
-         var earthRadius = 6371;
-         return earthRadius * v2;
-      }();
-   });
-   var roundTo = function (places) {
-      return function () {
-         var factor = Math.pow(10,
-         places);
-         return function ($) {
-            return function (n) {
-               return n / factor;
-            }($Basics.toFloat($Basics.round(F2(function (x,
-            y) {
-               return x * y;
-            })(factor)($))));
-         };
-      }();
-   };
-   var resultMappend = F2(function (a,
-   b) {
-      return function () {
-         var _v0 = {ctor: "_Tuple2"
-                   ,_0: a
-                   ,_1: b};
-         switch (_v0.ctor)
-         {case "_Tuple2":
-            switch (_v0._0.ctor)
-              {case "Err":
-                 return $Result.Err(_v0._0._0);}
-              switch (_v0._1.ctor)
-              {case "Err":
-                 return $Result.Err(_v0._1._0);}
-              switch (_v0._0.ctor)
-              {case "Ok": switch (_v0._1.ctor)
-                   {case "Ok":
-                      return $Result.Ok({ctor: "_Tuple2"
-                                        ,_0: _v0._0._0
-                                        ,_1: _v0._1._0});}
-                   break;}
-              break;}
-         _U.badCase($moduleName,
-         "between lines 12 and 15");
-      }();
-   });
-   var maybeMappend = F2(function (a,
-   b) {
-      return function () {
-         var _v7 = {ctor: "_Tuple2"
-                   ,_0: a
-                   ,_1: b};
-         switch (_v7.ctor)
-         {case "_Tuple2":
-            switch (_v7._0.ctor)
-              {case "Nothing":
-                 return $Maybe.Nothing;}
-              switch (_v7._1.ctor)
-              {case "Nothing":
-                 return $Maybe.Nothing;}
-              switch (_v7._0.ctor)
-              {case "Just":
-                 switch (_v7._1.ctor)
-                   {case "Just":
-                      return $Maybe.Just({ctor: "_Tuple2"
-                                         ,_0: _v7._0._0
-                                         ,_1: _v7._1._0});}
-                   break;}
-              break;}
-         _U.badCase($moduleName,
-         "between lines 5 and 8");
-      }();
-   });
-   _elm.Util.values = {_op: _op
-                      ,maybeMappend: maybeMappend
-                      ,resultMappend: resultMappend
-                      ,roundTo: roundTo
-                      ,distanceBetween: distanceBetween
-                      ,bearingTo: bearingTo};
-   return _elm.Util.values;
-};
 Elm.View = Elm.View || {};
 Elm.View.make = function (_elm) {
    "use strict";
@@ -15560,7 +15554,6 @@ Elm.View.make = function (_elm) {
    $Exts$Html$Bootstrap = Elm.Exts.Html.Bootstrap.make(_elm),
    $FindAddress$Schema = Elm.FindAddress.Schema.make(_elm),
    $FindAddress$View = Elm.FindAddress.View.make(_elm),
-   $Geometry = Elm.Geometry.make(_elm),
    $Html = Elm.Html.make(_elm),
    $Html$Attributes = Elm.Html.Attributes.make(_elm),
    $Html$Events = Elm.Html.Events.make(_elm),
@@ -15569,7 +15562,6 @@ Elm.View.make = function (_elm) {
    $Result = Elm.Result.make(_elm),
    $Schema = Elm.Schema.make(_elm),
    $Signal = Elm.Signal.make(_elm),
-   $Util = Elm.Util.make(_elm),
    $View$Compass = Elm.View.Compass.make(_elm);
    var positionErrorView = F2(function (uiChannel,
    err) {
@@ -15599,143 +15591,6 @@ Elm.View.make = function (_elm) {
    var noPositionView = A2($Html.h2,
    _L.fromArray([]),
    _L.fromArray([$Html.text("Awaiting location...")]));
-   var positionTable = function (position) {
-      return A2($Html.table,
-      _L.fromArray([$Html$Attributes.$class("table table-condensed table-bordered")]),
-      _L.fromArray([A2($Html.thead,
-                   _L.fromArray([]),
-                   _L.fromArray([]))
-                   ,A2($Html.tbody,
-                   _L.fromArray([]),
-                   _L.fromArray([A2($Html.tr,
-                                _L.fromArray([]),
-                                _L.fromArray([A2($Html.th,
-                                             _L.fromArray([]),
-                                             _L.fromArray([$Html.text("Latitude")]))
-                                             ,A2($Html.td,
-                                             _L.fromArray([]),
-                                             _L.fromArray([$Html.text($Basics.toString(position.coords.latitude))]))]))
-                                ,A2($Html.tr,
-                                _L.fromArray([]),
-                                _L.fromArray([A2($Html.th,
-                                             _L.fromArray([]),
-                                             _L.fromArray([$Html.text("Longitude")]))
-                                             ,A2($Html.td,
-                                             _L.fromArray([]),
-                                             _L.fromArray([$Html.text($Basics.toString(position.coords.longitude))]))]))
-                                ,A2($Html.tr,
-                                _L.fromArray([]),
-                                _L.fromArray([A2($Html.th,
-                                             _L.fromArray([]),
-                                             _L.fromArray([$Html.text("Timestamp")]))
-                                             ,A2($Html.td,
-                                             _L.fromArray([]),
-                                             _L.fromArray([$Html.text($Basics.toString(position.timestamp))]))]))]))]));
-   };
-   var orientationTable = function (orientation) {
-      return A2($Html.table,
-      _L.fromArray([$Html$Attributes.$class("table table-condensed table-bordered")]),
-      _L.fromArray([A2($Html.thead,
-                   _L.fromArray([]),
-                   _L.fromArray([]))
-                   ,A2($Html.tbody,
-                   _L.fromArray([]),
-                   _L.fromArray([A2($Html.tr,
-                                _L.fromArray([]),
-                                _L.fromArray([A2($Html.th,
-                                             _L.fromArray([]),
-                                             _L.fromArray([$Html.text("Alpha")]))
-                                             ,A2($Html.td,
-                                             _L.fromArray([]),
-                                             _L.fromArray([$Html.text($Basics.toString(orientation.alpha))]))]))
-                                ,A2($Html.tr,
-                                _L.fromArray([]),
-                                _L.fromArray([A2($Html.th,
-                                             _L.fromArray([]),
-                                             _L.fromArray([$Html.text("Beta")]))
-                                             ,A2($Html.td,
-                                             _L.fromArray([]),
-                                             _L.fromArray([$Html.text($Basics.toString(orientation.beta))]))]))
-                                ,A2($Html.tr,
-                                _L.fromArray([]),
-                                _L.fromArray([A2($Html.th,
-                                             _L.fromArray([]),
-                                             _L.fromArray([$Html.text("Gamma")]))
-                                             ,A2($Html.td,
-                                             _L.fromArray([]),
-                                             _L.fromArray([$Html.text($Basics.toString(orientation.gamma))]))]))]))]));
-   };
-   var positionView = F3(function (target,
-   position,
-   orientation) {
-      return function () {
-         var bearing = A2($Util.bearingTo,
-         position.coords,
-         target);
-         var aim = function (alpha) {
-            return bearing - $Basics.round(alpha);
-         };
-         var maybeAim = A2($Maybe.map,
-         aim,
-         orientation.alpha);
-         var distance = A2($Util.distanceBetween,
-         position.coords,
-         target);
-         var roundedDistance = A2($Util.roundTo,
-         2,
-         distance);
-         return A2($Html.div,
-         _L.fromArray([$Html$Attributes.$class("row")]),
-         _L.fromArray([A2($Html.div,
-         _L.fromArray([$Html$Attributes.$class("col-xs-12")]),
-         _L.fromArray([A3($View$Compass.compass,
-                      target,
-                      position,
-                      orientation)
-                      ,A2($Html.h3,
-                      _L.fromArray([]),
-                      _L.fromArray([$Html.text(A2($Basics._op["++"],
-                      "Distance: ",
-                      A2($Basics._op["++"],
-                      $Basics.toString(roundedDistance),
-                      "km")))]))
-                      ,A2($Html.h3,
-                      _L.fromArray([]),
-                      _L.fromArray([$Html.text(A2($Basics._op["++"],
-                      "Bearing: ",
-                      A2($Basics._op["++"],
-                      $Basics.toString(bearing),
-                      " degrees")))]))
-                      ,A2($Html.h3,
-                      _L.fromArray([]),
-                      _L.fromArray([$Html.text(A2($Basics._op["++"],
-                      "Alpha: ",
-                      A2($Basics._op["++"],
-                      $Basics.toString(orientation.alpha),
-                      " degrees")))]))
-                      ,A2($Html.h3,
-                      _L.fromArray([]),
-                      _L.fromArray([$Html.text(A2($Basics._op["++"],
-                      "Aim: ",
-                      A2($Basics._op["++"],
-                      $Basics.toString(maybeAim),
-                      " degrees")))]))
-                      ,orientationTable(orientation)
-                      ,positionTable(position)]))]));
-      }();
-   });
-   var debuggingView = function (model) {
-      return A2($Html.div,
-      _L.fromArray([]),
-      _L.fromArray([A2($Html.h1,
-                   _L.fromArray([]),
-                   _L.fromArray([$Html.text("TODO")]))
-                   ,A2($Html.div,
-                   _L.fromArray([]),
-                   _L.fromArray([A2($Html.code,
-                   _L.fromArray([]),
-                   _L.fromArray([$Html.text($Basics.toString(model))]))]))]));
-   };
    var frontPage = F2(function (uiChannel,
    model) {
       return function () {
@@ -15793,16 +15648,10 @@ Elm.View.make = function (_elm) {
                         break;}
                    break;}
               break;}
-         return debuggingView(model);
+         _U.badCase($moduleName,
+         "between lines 62 and 72");
       }();
    });
-   var notFoundPage = $Exts$Html$Bootstrap.row(_L.fromArray([A2($Html.div,
-   _L.fromArray([$Html$Attributes.$class("col-md-8 col-md-offset-2")]),
-   _L.fromArray([A2($Html.div,
-   _L.fromArray([]),
-   _L.fromArray([A2($Html.h1,
-   _L.fromArray([]),
-   _L.fromArray([$Html.text("404 Not Found")]))]))]))]));
    var navbar = function (uiChannel) {
       return A2($Html.nav,
       _L.fromArray([$Html$Attributes.$class("navbar navbar-default")]),
@@ -15821,46 +15670,59 @@ Elm.View.make = function (_elm) {
       return A2($Html.div,
       _L.fromArray([]),
       _L.fromArray([function () {
-         var _v13 = model.view;
+         var _v13 = model.findModel.chosenCandidate;
          switch (_v13.ctor)
-         {case "FrontPage":
-            return function () {
-                 var _v14 = model.findModel.chosenCandidate;
-                 switch (_v14.ctor)
+         {case "Just":
+            return A2(frontPage,
+              uiChannel,
+              model);
+            case "Nothing":
+            return A3($FindAddress$View.rootView,
+              A2($Signal.forwardTo,
+              uiChannel,
+              $Schema.FindAction),
+              function () {
+                 var _v15 = model.geolocation;
+                 switch (_v15.ctor)
                  {case "Just":
-                    return A2(frontPage,
-                      uiChannel,
-                      model);
-                    case "Nothing":
-                    return A3($FindAddress$View.rootView,
-                      A2($Signal.forwardTo,
-                      uiChannel,
-                      $Schema.FindAction),
-                      function () {
-                         var _v16 = model.geolocation;
-                         switch (_v16.ctor)
-                         {case "Just":
-                            switch (_v16._0.ctor)
-                              {case "Ok":
-                                 return $Maybe.Just({_: {}
-                                                    ,latitude: _v16._0._0.coords.latitude
-                                                    ,longitude: _v16._0._0.coords.latitude});}
-                              break;}
-                         return $Maybe.Nothing;
-                      }(),
-                      model.findModel);}
-                 _U.badCase($moduleName,
-                 "between lines 32 and 39");
-              }();}
+                    switch (_v15._0.ctor)
+                      {case "Ok":
+                         return $Maybe.Just({_: {}
+                                            ,latitude: _v15._0._0.coords.latitude
+                                            ,longitude: _v15._0._0.coords.latitude});}
+                      break;}
+                 return $Maybe.Nothing;
+              }(),
+              model.findModel);}
          _U.badCase($moduleName,
-         "between lines 31 and 39");
+         "between lines 41 and 48");
       }()]));
    });
    var rootView = F2(function (uiChannel,
    model) {
       return A2($Html.div,
       _L.fromArray([]),
-      _L.fromArray([navbar(uiChannel)
+      _L.fromArray([A3($Html.node,
+                   "link",
+                   _L.fromArray([$Html$Attributes.href("bootstrap-3.3.4/css/bootstrap.min.css")
+                                ,$Html$Attributes.rel("stylesheet")]),
+                   _L.fromArray([]))
+                   ,A3($Html.node,
+                   "link",
+                   _L.fromArray([$Html$Attributes.href("style.css")
+                                ,$Html$Attributes.type$("text/css")
+                                ,$Html$Attributes.rel("stylesheet")]),
+                   _L.fromArray([]))
+                   ,A3($Html.node,
+                   "meta",
+                   _L.fromArray([$Html$Attributes.charset("UTF-8.css")]),
+                   _L.fromArray([]))
+                   ,A3($Html.node,
+                   "meta",
+                   _L.fromArray([$Html$Attributes.name("viewport")
+                                ,$Html$Attributes.content("width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui")]),
+                   _L.fromArray([]))
+                   ,navbar(uiChannel)
                    ,$Exts$Html$Bootstrap.containerFluid(_L.fromArray([A2($Html.div,
                    _L.fromArray([$Html$Attributes.$class("row")]),
                    _L.fromArray([A2($Html.div,
@@ -15887,6 +15749,8 @@ Elm.View.Compass.make = function (_elm) {
    _L = _N.List.make(_elm),
    $moduleName = "View.Compass",
    $Basics = Elm.Basics.make(_elm),
+   $Exts$Float = Elm.Exts.Float.make(_elm),
+   $Exts$LatLng = Elm.Exts.LatLng.make(_elm),
    $Geometry = Elm.Geometry.make(_elm),
    $Html = Elm.Html.make(_elm),
    $List = Elm.List.make(_elm),
@@ -15895,17 +15759,16 @@ Elm.View.Compass.make = function (_elm) {
    $Schema = Elm.Schema.make(_elm),
    $Signal = Elm.Signal.make(_elm),
    $Svg = Elm.Svg.make(_elm),
-   $Svg$Attributes = Elm.Svg.Attributes.make(_elm),
-   $Util = Elm.Util.make(_elm);
+   $Svg$Attributes = Elm.Svg.Attributes.make(_elm);
    var compass = F3(function (target,
    position,
    orientation) {
       return function () {
-         var bearing = A2($Util.bearingTo,
+         var bearing = A2($Exts$LatLng.bearingTo,
          position.coords,
          target);
          var aim = function (alpha) {
-            return bearing - $Basics.round(alpha);
+            return bearing - alpha;
          };
          var maybeAim = A2($Maybe.map,
          aim,
@@ -15920,12 +15783,12 @@ Elm.View.Compass.make = function (_elm) {
                  " 60 60)"));
                case "Nothing": return "";}
             _U.badCase($moduleName,
-            "between lines 17 and 20");
+            "between lines 18 and 21");
          }();
-         var distance = A2($Util.distanceBetween,
+         var distance = A2($Exts$LatLng.distanceBetween,
          position.coords,
          target);
-         var roundedDistance = A2($Util.roundTo,
+         var roundedDistance = A2($Exts$Float.roundTo,
          2,
          distance);
          return A2($Html.div,

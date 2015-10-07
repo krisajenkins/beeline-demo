@@ -1,4 +1,4 @@
-/* @flow weak */
+/*global Elm */
 
 window.addEventListener(
     'load',
@@ -6,7 +6,6 @@ window.addEventListener(
         var app = Elm.fullscreen(
             Elm.Main,
             {
-                uriHashSignal : document.location.hash,
                 orientationSignal : null,
                 orientationErrorSignal : null,
                 geolocationSignal : null,
@@ -14,37 +13,25 @@ window.addEventListener(
             }
         );
 
-        var sendHash = function (event) {
-            app.ports.uriHashSignal.send(document.location.hash);
-        };
-
-        var sendOrientation = function (orientation) {
-            app.ports.orientationSignal.send(orientation);
-        };
-
-        var sendPosition = function (position) {
-            console.log("Got position", position);
-            app.ports.geolocationSignal.send(position);
-        };
-
-        var sendPositionError = function (positionError) {
-            console.error("Got position error", positionError);
-            app.ports.geolocationErrorSignal.send(positionError);
-        };
-
-        navigator.geolocation.getCurrentPosition(sendPosition);
-        navigator.geolocation.watchPosition(
-            sendPosition,
-            sendPositionError,
-            {maximumAge : 1000}
-        );;
-
-        window.addEventListener('popstate', sendHash, false);
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(app.ports.geolocationSignal.send);
+            navigator.geolocation.watchPosition(
+                app.ports.geolocationSignal.send,
+                app.ports.geolocationErrorSignal.send,
+                {maximumAge : 1000}
+            );
+        } else {
+            app.ports.geolocationErrorSignal.send("Device does not support geolocation checks.");
+        }
 
         if (window.DeviceOrientationEvent) {
-            window.addEventListener('deviceorientation', sendOrientation, false);
+            window.addEventListener(
+                'deviceorientation',
+                app.ports.orientationSignal.send,
+                false
+            );
         } else {
-            app.ports.orientationErrorSignal.send(positionError);
+            app.ports.orientationErrorSignal.send("Device does not support orientation checks.");
         };
     },
     false
