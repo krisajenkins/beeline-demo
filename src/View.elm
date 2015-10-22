@@ -42,7 +42,7 @@ contentView uiChannel model =
          Nothing -> FindAddress.View.rootView (forwardTo uiChannel FindAction)
                                               (case model.geolocation of
                                                  (Just (Ok position)) -> Just {latitude = position.coords.latitude
-                                                                              ,longitude = position.coords.latitude}
+                                                                              ,longitude = position.coords.longitude}
                                                  _ -> Nothing)
                                               model.findModel
          Just target -> frontPage uiChannel model]
