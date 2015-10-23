@@ -15689,7 +15689,7 @@ Elm.View.make = function (_elm) {
                       {case "Ok":
                          return $Maybe.Just({_: {}
                                             ,latitude: _v15._0._0.coords.latitude
-                                            ,longitude: _v15._0._0.coords.latitude});}
+                                            ,longitude: _v15._0._0.coords.longitude});}
                       break;}
                  return $Maybe.Nothing;
               }(),
@@ -15768,7 +15768,7 @@ Elm.View.Compass.make = function (_elm) {
          position.coords,
          target);
          var aim = function (alpha) {
-            return bearing - alpha;
+            return bearing + alpha;
          };
          var maybeAim = A2($Maybe.map,
          aim,
@@ -15779,7 +15779,7 @@ Elm.View.Compass.make = function (_elm) {
                return A2($Basics._op["++"],
                  "rotate(",
                  A2($Basics._op["++"],
-                 $Basics.toString(0 - maybeAim._0),
+                 $Basics.toString(maybeAim._0),
                  " 60 60)"));
                case "Nothing": return "";}
             _U.badCase($moduleName,
