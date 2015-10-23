@@ -13,11 +13,11 @@ compass target position orientation =
   let distance = distanceBetween position.coords target
       roundedDistance = roundTo 2 distance
       bearing = bearingTo position.coords target
-      aim alpha = bearing - alpha
+      aim alpha = bearing + alpha
       maybeAim = Maybe.map aim orientation.alpha
       transformString = case maybeAim of
                           Nothing -> ""
-                          Just b -> "rotate(" ++ (toString (-b)) ++ " 60 60)"
+                          Just b -> "rotate(" ++ (toString b) ++ " 60 60)"
   in div [class "compass"]
          [svg [width "300", height "300", viewBox "0 0 120 120"]
               [circle [cx "60", cy "60", r "51", fill "none", stroke "grey", strokeWidth "5"]
