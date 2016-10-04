@@ -1,6 +1,6 @@
 port module Ports exposing (..)
 
-import Schema exposing (..)
+import Types exposing (..)
 
 
 port orientation : (Maybe Orientation -> msg) -> Sub msg

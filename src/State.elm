@@ -1,17 +1,15 @@
-module Main exposing (..)
+module State exposing (..)
 
-import FindAddress.Main
-import Html.App
+import FindAddress.State as FindAddress
 import Ports
-import Schema exposing (..)
-import View exposing (..)
+import Types exposing (..)
 
 
 init : ( Model, Cmd Action )
 init =
     let
         ( findModel, findCmd ) =
-            FindAddress.Main.init
+            FindAddress.init
     in
         ( { orientation = Nothing
           , findModel = findModel
@@ -33,7 +31,7 @@ update action model =
         FindAction a ->
             let
                 ( newFindModel, newFindCmd ) =
-                    FindAddress.Main.update a model.findModel
+                    FindAddress.update a model.findModel
             in
                 ( { model | findModel = newFindModel }
                 , Cmd.map FindAction newFindCmd
@@ -48,13 +46,3 @@ subscriptions model =
         , Ports.geolocation (Maybe.map Ok >> ChangeLocation)
         , Ports.geolocationError (Maybe.map Err >> ChangeLocation)
         ]
-
-
-main : Program Never
-main =
-    Html.App.program
-        { init = init
-        , view = rootView
-        , update = update
-        , subscriptions = subscriptions
-        }

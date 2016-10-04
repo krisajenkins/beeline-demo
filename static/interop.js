@@ -3,7 +3,7 @@
 window.addEventListener(
     'load',
     function () {
-        var app = Elm.Main.fullscreen();
+        var app = Elm.App.fullscreen();
 
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(app.ports.geolocation.send);

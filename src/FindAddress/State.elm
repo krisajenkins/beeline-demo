@@ -1,8 +1,7 @@
-module FindAddress.Main exposing (..)
+module FindAddress.State exposing (..)
 
-import FindAddress.Schema exposing (..)
-import Http exposing (Error)
-import Task
+import FindAddress.Rest exposing (..)
+import FindAddress.Types exposing (..)
 
 
 init : ( Model, Cmd Action )
@@ -14,15 +13,6 @@ init =
       }
     , Cmd.none
     )
-
-
-findCandidates : String -> Cmd (Result Error (List Candidate))
-findCandidates term =
-    "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates"
-        ++ "?f=json&outFields=City&singleLine="
-        ++ Http.uriEncode term
-        |> Http.get decodeFindAddressCandidates
-        |> Task.perform Err Ok
 
 
 update : Action -> Model -> ( Model, Cmd Action )

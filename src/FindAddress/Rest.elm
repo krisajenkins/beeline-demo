@@ -1,37 +1,11 @@
-module FindAddress.Schema exposing (..)
+module FindAddress.Rest exposing (..)
 
+import FindAddress.Types exposing (..)
+import Geometry exposing (LatLng)
+import Http exposing (Error)
 import Json.Decode as Json exposing (..)
 import Json.Decode.Pipeline exposing (..)
-import Http exposing (Error)
-import Geometry exposing (LatLng)
-
-
-type alias Attributes =
-    { city : String }
-
-
-type alias Candidate =
-    { address : String
-    , location : LatLng
-    , attributes : Attributes
-    , score : Float
-    }
-
-
-type alias Model =
-    { term : Maybe String
-    , loading : Bool
-    , chosenCandidate : Maybe Candidate
-    , candidates : Maybe (Result Error (List Candidate))
-    }
-
-
-type Action
-    = TermChange String
-    | Submit
-    | SearchCandidates (Result Error (List Candidate))
-    | ChooseCandidate Candidate
-    | Reset
+import Task
 
 
 decodeLocation : Decoder LatLng
@@ -59,3 +33,12 @@ decodeCandidate =
 decodeFindAddressCandidates : Decoder (List Candidate)
 decodeFindAddressCandidates =
     "candidates" := list decodeCandidate
+
+
+findCandidates : String -> Cmd (Result Error (List Candidate))
+findCandidates term =
+    "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates"
+        ++ "?f=json&outFields=City&singleLine="
+        ++ Http.uriEncode term
+        |> Http.get decodeFindAddressCandidates
+        |> Task.perform Err Ok

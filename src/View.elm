@@ -1,13 +1,13 @@
 module View exposing (rootView)
 
 import Exts.Html.Bootstrap exposing (..)
-import FindAddress.Schema
-import FindAddress.View
+import FindAddress.Types as FindAddress
+import FindAddress.View as FindAddress
 import Html exposing (..)
 import Html.App as Html
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import Schema exposing (..)
+import Types exposing (..)
 import View.Compass exposing (compass)
 
 
@@ -56,7 +56,7 @@ contentView model =
         [ case model.findModel.chosenCandidate of
             Nothing ->
                 Html.map FindAction
-                    <| FindAddress.View.rootView
+                    <| FindAddress.rootView
                         (case model.geolocation of
                             Just (Ok position) ->
                                 Just
@@ -114,7 +114,7 @@ frontPage model =
                 [ compass candidate.location position orientation
                 , button
                     [ class "btn btn-lg btn-block btn-primary"
-                    , onClick (FindAction FindAddress.Schema.Reset)
+                    , onClick (FindAction FindAddress.Reset)
                     ]
                     [ text "Finish" ]
                 ]

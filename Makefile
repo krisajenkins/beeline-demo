@@ -48,7 +48,7 @@ dist/%.js: static/%.js dist
 	cp $< $@
 
 dist/app.js: $(shell find src -type f -name '*.elm') dist
-	elm-make --yes src/Main.elm --warn --output=$@
+	elm-make --yes src/App.elm --warn --output=$@
 
 dist/vendor:
 	rsync -qrvcz --delete vendor/ dist/vendor/

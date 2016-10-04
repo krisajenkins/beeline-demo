@@ -1,6 +1,6 @@
-module Schema exposing (..)
+module Types exposing (..)
 
-import FindAddress.Schema
+import FindAddress.Types as FindAddress
 
 
 type alias Orientation =
@@ -34,7 +34,7 @@ type alias PositionError =
 
 
 type alias Model =
-    { findModel : FindAddress.Schema.Model
+    { findModel : FindAddress.Model
     , orientation : Maybe (Result String Orientation)
     , geolocation : Maybe (Result PositionError Position)
     }
@@ -43,4 +43,4 @@ type alias Model =
 type Action
     = ChangeOrientation (Maybe (Result String Orientation))
     | ChangeLocation (Maybe (Result PositionError Position))
-    | FindAction FindAddress.Schema.Action
+    | FindAction FindAddress.Action

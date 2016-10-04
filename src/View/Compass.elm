@@ -1,12 +1,12 @@
 module View.Compass exposing (..)
 
+import Exts.Float exposing (roundTo)
+import Exts.LatLng exposing (distanceBetween, bearingTo)
+import Geometry exposing (LatLng)
+import Html exposing (Html, div)
 import Svg exposing (..)
 import Svg.Attributes exposing (..)
-import Schema exposing (..)
-import Html exposing (Html, div)
-import Geometry exposing (LatLng)
-import Exts.LatLng exposing (distanceBetween, bearingTo)
-import Exts.Float exposing (roundTo)
+import Types exposing (..)
 
 
 compass : LatLng -> Position -> Orientation -> Html msg
