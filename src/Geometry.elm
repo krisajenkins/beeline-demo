@@ -1,5 +1,7 @@
-module Geometry where
+module Geometry exposing (..)
+
 
 type alias LatLng =
-  {latitude : Float
-  ,longitude : Float}
+    { latitude : Float
+    , longitude : Float
+    }
